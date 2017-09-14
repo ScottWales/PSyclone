@@ -117,7 +117,7 @@ VALID_LOOP_TYPES = ["dofs", "colours", "colour", ""]
 psyGen.MAPPING_REDUCTIONS = {"sum": "gh_sum"}
 psyGen.MAPPING_SCALARS = {"iscalar": "gh_integer", "rscalar": "gh_real"}
 psyGen.MAPPING_ACCESSES = {"inc": "gh_inc", "write": "gh_write",
-                           "read": "gh_read"}
+                           "read": "gh_read", "readwrite": "gh_readwrite"}
 psyGen.VALID_ARG_TYPE_NAMES = VALID_ARG_TYPE_NAMES
 psyGen.VALID_ACCESS_DESCRIPTOR_NAMES = VALID_ACCESS_DESCRIPTOR_NAMES
 
@@ -2466,7 +2466,7 @@ class DynLoop(Loop):
         elif arg.type in VALID_OPERATOR_NAMES:
             # operators do not have halos
             return False
-        elif arg.discontinuous and arg.access.lower() == "gh_read":
+        elif arg.discontinuous and arg.access.lower() in GH_READ_ACCESSES:
             # there are no shared dofs so access to inner and edge are
             # local so we only care about reads in the halo
             return self._upper_bound_name == "halo"
@@ -2758,7 +2758,7 @@ class DynKern(Kern):
 
         # Check whether this kernel reads from an operator
         op_args = self.parent.args_filter(arg_types=VALID_OPERATOR_NAMES,
-                                          arg_accesses=["gh_read"])
+                                          arg_accesses=["gh_read", "gh_readwrite"])
         if op_args:
             # It does. We must check that our parent loop does not
             # go beyond the L1 halo.
@@ -2978,7 +2978,7 @@ class ArgOrdering(object):
                     format(self._kern.name, op_arg.type))
             # TODO this access should really be "gh_readwrite". Support for
             # this will be added under #25.
-            if op_arg.access != "gh_inc":
+            if op_arg.access != "gh_readwrite":
                 raise GenerationError(
                     "Kernel {0} is recognised as a kernel which applies "
                     "boundary conditions to an operator. However its "
@@ -4355,6 +4355,8 @@ class DynKernelArgument(KernelArgument):
             return "in"
         elif self.access == "gh_write":
             return "out"
+        elif self.access == "gh_readwrite":
+            return "inout"
         elif self.access in ["gh_inc"] + VALID_REDUCTION_NAMES:
             return "inout"
         else:
