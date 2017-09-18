@@ -2759,7 +2759,8 @@ class DynKern(Kern):
 
         # Check whether this kernel reads from an operator
         op_args = self.parent.args_filter(arg_types=VALID_OPERATOR_NAMES,
-                                          arg_accesses=["gh_read", "gh_readwrite"])
+                                          arg_accesses=["gh_read",
+                                                        "gh_readwrite"])
         if op_args:
             # It does. We must check that our parent loop does not
             # go beyond the L1 halo.
@@ -2983,7 +2984,8 @@ class ArgOrdering(object):
                 raise GenerationError(
                     "Kernel {0} is recognised as a kernel which applies "
                     "boundary conditions to an operator. However its "
-                    "operator argument has access {1} rather than gh_inc.".
+                    "operator argument has access {1} rather than "
+                    "gh_readwrite.".
                     format(self._kern.name, op_arg.access))
             self.operator_bcs_kernel(op_arg.function_space_to)
 

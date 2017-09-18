@@ -2,10 +2,6 @@
 # BSD 3-Clause License
 #
 # Copyright (c) 2017, Science and Technology Facilities Council
-# (c) The copyright relating to this work is owned jointly by the Crown,
-# Met Office and NERC 2016.
-# However, it has been created with the help of the GungHo Consortium,
-# whose members are identified at https://puma.nerc.ac.uk/trac/GungHo/wiki
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -36,6 +32,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
 # Author R. Ford STFC Daresbury Lab
+# Modified I. Kavcic Met Office
 
 ''' This module provides generic support for PSyclone's PSy code optimisation
     and generation. The classes in this method need to be specialised for a
@@ -89,7 +86,8 @@ REDUCTION_OPERATOR_MAPPING = {"sum": "+"}
 # Names of types of scalar variable
 MAPPING_SCALARS = {"iscalar": "iscalar", "rscalar": "rscalar"}
 # Types of access for a kernel argument
-MAPPING_ACCESSES = {"inc": "inc", "write": "write", "read": "read"}
+MAPPING_ACCESSES = {"inc": "inc", "write": "write", "read": "read",
+                    "readwrite": "readwrite"}
 # Valid types of argument to a kernel call
 VALID_ARG_TYPE_NAMES = []
 # List of all valid access types for a kernel argument
@@ -560,10 +558,12 @@ class Invoke(object):
         # be accessed in different ways by different kernels.
         inc_args = self.unique_declarations(datatype,
                                             access=MAPPING_ACCESSES["inc"])
-        write_args = self.unique_declarations(datatype,
-                                              access=MAPPING_ACCESSES["write"])
-        read_args = self.unique_declarations(datatype,
-                                             access=MAPPING_ACCESSES["read"])
+        write_args = self.unique_declarations(
+            datatype, access=[MAPPING_ACCESSES["write"],
+                              MAPPING_ACCESSES["readwrite"]])
+        read_args = self.unique_declarations(
+            datatype, access=[MAPPING_ACCESSES["read"],
+                              MAPPING_ACCESSES["readwrite"]])
         sum_args = self.unique_declarations(datatype,
                                             access=MAPPING_REDUCTIONS["sum"])
         # sum_args behave as if they are write_args from the
@@ -605,6 +605,7 @@ class Invoke(object):
             # or inc'd before it is written then it must have intent(inout).
             # However, we deal with inc args separately so we do
             # not consider those here.
+            # TODO IK -- Need to add MAPPING_ACCESSES["readwrite"] as well?
             first_arg = self.first_access(name)
             if first_arg.access == MAPPING_ACCESSES["read"]:
                 if name not in declns["inout"]:
@@ -1601,7 +1602,8 @@ class GlobalSum(Node):
         if scalar:
             # update scalar values appropriately
             # HACK:TODO: update mapping to readwrite when it is supported
-            self._scalar.access = MAPPING_ACCESSES["inc"]
+            # TODO IK -- Done
+            self._scalar.access = MAPPING_ACCESSES["readwrite"]
             self._scalar.call = self
 
     @property
@@ -1656,7 +1658,8 @@ class HaloExchange(Node):
         if field:
             # update fields values appropriately
             # HACK:TODO: update mapping to readwrite when it is supported
-            self._field.access = MAPPING_ACCESSES["inc"]
+            # TODO IK -- Done
+            self._field.access = MAPPING_ACCESSES["readwrite"]
             self._field.call = self
         self._halo_type = halo_type
         if halo_depth:
@@ -2507,9 +2510,10 @@ class Argument(object):
         the iteration spaces of loops e.g. for overlapping
         communication and computation. '''
 
-        writers = [MAPPING_ACCESSES["write"], MAPPING_ACCESSES["inc"],
-                   MAPPING_REDUCTIONS["sum"]]
-        readers = [MAPPING_ACCESSES["read"], MAPPING_ACCESSES["inc"]]
+        writers = [MAPPING_ACCESSES["write"], MAPPING_ACCESSES["readwrite"],
+                   MAPPING_ACCESSES["inc"], MAPPING_REDUCTIONS["sum"]]
+        readers = [MAPPING_ACCESSES["read"], MAPPING_ACCESSES["readwrite"],
+                   MAPPING_ACCESSES["inc"]]
         if argument.name == self._name:
             if self.access in writers and argument.access in readers:
                 return True
