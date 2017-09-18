@@ -85,7 +85,7 @@ GH_WRITE_ACCESSES = ["gh_write", "gh_readwrite", "gh_inc"] + \
                     VALID_REDUCTION_NAMES
 # List of all access types that only involve reading an argument
 GH_READ_ACCESSES = ["gh_read", "gh_readwrite"]
-VALID_ACCESS_DESCRIPTOR_NAMES = GH_READ_ACCESSES + GH_WRITE_ACCESSES
+VALID_ACCESS_DESCRIPTOR_NAMES = list(set(GH_READ_ACCESSES + GH_WRITE_ACCESSES))
 
 
 VALID_STENCIL_TYPES = ["x1d", "y1d", "xory1d", "cross", "region"]
