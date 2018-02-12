@@ -1862,8 +1862,9 @@ class DynInterGrid(object):
             return
 
         parent.add(CommentGen(parent, ""))
-        parent.add(CommentGen(parent,
-                              " Look-up mesh objects for inter-grid kernels"))
+        parent.add(CommentGen(
+            parent,
+            " Look-up mesh objects and loop limits for inter-grid kernels"))
         parent.add(CommentGen(parent, ""))
 
         for kern in self._kern_calls:
@@ -1891,6 +1892,12 @@ class DynInterGrid(object):
                           lhs=kern["mmap"],
                           rhs="{0}%get_mesh_map({1})".format(coarse_mesh,
                                                              fine_mesh)))
+
+            # Cell map. This is obtained from the mesh map.
+            parent.add(
+                AssignGen(parent, pointer=True, lhs=kern["cellmap"],
+                          rhs=kern["mmap"]+"%get_whole_cell_map()"))
+
             # Number of cells in each mesh
             parent.add(
                 # TODO what should this be when not doing DM?
@@ -1906,11 +1913,6 @@ class DynInterGrid(object):
                 AssignGen(parent, lhs=kern["ncperc"],
                           rhs=kern["mmap"]+
                           "%get_ntarget_cells_per_source_cell()"))
-
-            # Cell map. This is obtained from the mesh map.
-            parent.add(
-                AssignGen(parent, pointer=True, lhs=kern["cellmap"],
-                          rhs=kern["mmap"]+"%get_whole_cell_map()"))
 
 
 class DynInvokeBasisFns(object):
