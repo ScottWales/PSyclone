@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # BSD 3-Clause License
 #
-# Copyright (c) 2017, Science and Technology Facilities Council
+# Copyright (c) 2017-18, Science and Technology Facilities Council
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -4885,3 +4885,32 @@ def test_red_comp_w_to_n_r_clean_gt_cleaned():
     required, known = w_to_r_halo_exchange.required()
     assert required
     assert known
+
+
+def test_intergrid_rejected():
+    ''' Check that any attempt to apply a transformation that affects
+    an inter-grid kernel is rejected. (Obviously this can be removed
+    once transformations with inter-grid kernels are supported.) '''
+    _, invoke_info = parse(os.path.join(
+        BASE_PATH, "22.0_intergrid_prolong.f90"), api="dynamo0.3")
+    psy = PSyFactory("dynamo0.3").create(invoke_info)
+    schedule = psy.invokes.invoke_list[0].schedule
+    schedule.view()
+    
+    rc_trans = Dynamo0p3RedundantComputationTrans()
+    with pytest.raises(TransformationError) as excinfo:
+        rc_trans.apply(schedule.children[1], depth=2)
+
+    assert ("blah" in str(excinfo))
+    
+    _, invoke_info = parse(os.path.join(
+        BASE_PATH, "22.1_intergrid_restrict.f90"), api="dynamo0.3")
+    psy = PSyFactory("dynamo0.3").create(invoke_info)
+    schedule = psy.invokes.invoke_list[0].schedule
+    schedule.view()
+    
+    rc_trans = Dynamo0p3RedundantComputationTrans()
+    with pytest.raises(TransformationError) as excinfo:
+        rc_trans.apply(schedule.children[1], depth=2)
+
+    assert ("blah" in str(excinfo))
