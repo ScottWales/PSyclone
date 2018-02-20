@@ -57,6 +57,33 @@ class TransformationError(Exception):
         return repr(self.value)
 
 
+def check_intergrid(node):
+    '''
+    Utility function to check that the supplied node does not have
+    an intergrid kernel as a child.
+
+    This is used to ensure that we reject any attempt to apply
+    transformations to loops containing inter-grid kernels. (This restriction
+    will be lifted in Issue #134 and this routine can then be removed.)
+
+    :param node: the Loop in the Schedule to check
+    :type node: :py:class:`psyGen.Loop`
+
+    :raises TransformationError: if the supplied loop contains an inter-grid
+                                 kernel
+    '''
+    if not node.children:
+        return
+    from psyclone.dynamo0p3 import DynKern
+    child_kernels = node.walk(node.children, DynKern)
+    for kern in child_kernels:
+        if kern.is_intergrid:
+            raise TransformationError(
+                "Transformations cannot currently be applied to loops "
+                "containing inter-grid kernels and {0} is such a "
+                "kernel.".format(kern.name))
+
+
 class LoopFuseTrans(Transformation):
     ''' Provides a loop-fuse transformation.
         For example:
@@ -191,6 +218,10 @@ class DynamoLoopFuseTrans(LoopFuseTrans):
         iteration space. This is set at the users own risk. '''
 
         LoopFuseTrans._validate(self, node1, node2)
+
+        # Check that we don't have an inter-grid kernel
+        check_intergrid(node1)
+        check_intergrid(node2)
 
         from psyclone.dynamo0p3 import VALID_FUNCTION_SPACES
         try:
@@ -538,6 +569,9 @@ class DynamoOMPParallelLoopTrans(OMPParallelLoopTrans):
         :py:class:`base class <OMPParallelLoopTrans>`. '''
         OMPParallelLoopTrans._validate(self, node)
 
+        # Check that we don't have an inter-grid kernel
+        check_intergrid(node)
+
         # If the loop is not already coloured then check whether or not
         # it should be. If the field space is W3 then we don't need
         # to worry about colouring.
@@ -621,6 +655,10 @@ class Dynamo0p3OMPLoopTrans(OMPLoopTrans):
                 "Error in {0} transformation. The kernel has an argument"
                 " with INC access. Colouring is required.".
                 format(self.name))
+
+        # Check that we don't have an inter-grid kernel
+        check_intergrid(node)
+
         return OMPLoopTrans.apply(self, node, reprod=reprod)
 
 
@@ -874,6 +912,9 @@ class Dynamo0p3ColourTrans(ColourTrans):
             pass
             # TODO generate a warning here as we don't need to colour
             # a loop that updates a field on W3.
+
+        # Check that we don't have an inter-grid kernel
+        check_intergrid(node)
 
         # Colouring is only necessary (and permitted) if the loop is
         # over cells. Since this is the default it is represented by
@@ -1275,6 +1316,10 @@ class Dynamo0p3RedundantComputationTrans(Transformation):
                 "In the Dynamo0p3RedundantComputation transformation apply "
                 "method the loop must iterate over cells or dofs, but found "
                 "'{0}'".format(node.loop_type))
+
+        # We don't currently support the application of transformations to
+        # loops containing inter-grid kernels
+        check_intergrid(node)
 
         if depth is None:
             if node.upper_bound_name in ["cell_halo", "dof_halo"]:
