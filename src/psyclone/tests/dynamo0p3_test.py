@@ -41,7 +41,7 @@
 ''' This module tests the Dynamo 0.3 API using pytest. '''
 
 # imports
-from __future__ import absolute_import
+from __future__ import absolute_import, print_function
 import os
 import pytest
 from psyclone.parse import parse, ParseError
@@ -565,7 +565,7 @@ def test_invalid_shape():
     name = "testkern_qr_type"
     with pytest.raises(ParseError) as excinfo:
         _ = DynKernMetadata(ast, name=name)
-    print str(excinfo)
+    print(str(excinfo))
     assert ("request a valid gh_shape (one of ['gh_quadrature_xyoz', "
             "'gh_evaluator']) but got 'quadrature_wrong' for kernel "
             "'testkern_qr_type'" in str(excinfo))
@@ -587,7 +587,7 @@ def test_unecessary_shape():
     name = "testkern_qr_type"
     with pytest.raises(ParseError) as excinfo:
         _ = DynKernMetadata(ast, name=name)
-    print str(excinfo)
+    print(str(excinfo))
     assert ("Kernel 'testkern_qr_type' specifies a gh_shape "
             "(gh_quadrature_xyoz) but does not need an evaluator because no "
             "basis or differential basis functions are required"
@@ -669,8 +669,8 @@ def test_field(tmpdir, f90, f90flags):
         "      !\n"
         "    END SUBROUTINE invoke_0_testkern_type\n"
         "  END MODULE single_invoke_psy")
-    print output
-    print generated_code
+    print(output)
+    print(generated_code)
     assert str(generated_code).find(output) != -1
 
 
@@ -686,7 +686,7 @@ def test_field_deref():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         output = (
             "    SUBROUTINE invoke_0_testkern_type(a, f1, est_f2, m1, "
             "est_m2)\n"
@@ -943,8 +943,8 @@ def test_field_fs():
         "      !\n"
         "    END SUBROUTINE invoke_0_testkern_fs_type\n"
         "  END MODULE single_invoke_fs_psy")
-    print str(generated_code)
-    print output
+    print(str(generated_code))
+    print(output)
     assert str(generated_code).find(output) != -1
 
 
@@ -956,7 +956,7 @@ def test_real_scalar():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     expected = (
         "    SUBROUTINE invoke_0_testkern_type(a, f1, f2, m1, m2)\n"
         "      USE testkern, ONLY: testkern_code\n"
@@ -1039,7 +1039,7 @@ def test_int_scalar():
         api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     expected = (
         "    SUBROUTINE invoke_0_testkern_type(f1, iflag, f2, m1, m2)\n"
         "      USE testkern_one_int_scalar, ONLY: testkern_code\n"
@@ -1123,7 +1123,7 @@ def test_two_real_scalars():
         api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     expected = (
         "    SUBROUTINE invoke_0_testkern_type(a, f1, f2, m1, m2, b)\n"
         "      USE testkern_two_real_scalars, ONLY: testkern_code\n"
@@ -1206,7 +1206,7 @@ def test_two_int_scalars():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     expected = (
         "    SUBROUTINE invoke_0(iflag, f1, f2, m1, m2, istep)\n"
         "      USE testkern_two_int_scalars, ONLY: testkern_code\n"
@@ -1296,7 +1296,7 @@ def test_two_scalars():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     expected = (
         "    SUBROUTINE invoke_0_testkern_type(a, f1, f2, m1, m2, istep)\n"
         "      USE testkern_two_scalars, ONLY: testkern_code\n"
@@ -1394,7 +1394,7 @@ def test_vector_field():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = psy.gen
-    print str(generated_code)
+    print(str(generated_code))
     assert str(generated_code).find("SUBROUTINE invoke_0_testkern_chi_"
                                     "type(f1, chi, f2)") != -1
     assert str(generated_code).find("TYPE(field_type), intent(inout)"
@@ -1408,7 +1408,7 @@ def test_vector_field_2():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = psy.gen
-    print generated_code
+    print(generated_code)
     # all references to chi_proxy should be chi_proxy(1)
     assert str(generated_code).find("chi_proxy%") == -1
     assert str(generated_code).count("chi_proxy(1)%vspace") == 4
@@ -1442,7 +1442,7 @@ def test_orientation():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = psy.gen
-    print str(generated_code)
+    print(str(generated_code))
     assert str(generated_code).find("INTEGER, pointer :: orientation_w2(:)"
                                     " => null()") != -1
     assert str(generated_code).find("orientation_w2 => f2_proxy%vspace%"
@@ -1456,7 +1456,7 @@ def test_operator():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     assert generated_code.find("SUBROUTINE invoke_0_testkern_operator"
                                "_type(mm_w0, chi, a, qr)") != -1
     assert generated_code.find("TYPE(operator_type), intent(inout) ::"
@@ -1479,7 +1479,7 @@ def test_operator_different_spaces(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
 
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
@@ -1625,7 +1625,7 @@ def test_operator_nofield(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     gen_code_str = str(psy.gen)
-    print gen_code_str
+    print(gen_code_str)
 
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
@@ -1657,7 +1657,7 @@ def test_operator_nofield_different_space(
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     gen = str(psy.gen)
-    print gen
+    print(gen)
 
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
@@ -1681,7 +1681,7 @@ def test_operator_nofield_scalar():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     gen = str(psy.gen)
-    print gen
+    print(gen)
     assert "mesh => my_mapping%get_mesh()" in gen
     assert "nlayers = my_mapping_proxy%fs_from%get_nlayers()" in gen
     assert "ndf_w2 = my_mapping_proxy%fs_from%get_ndf()" in gen
@@ -1704,7 +1704,7 @@ def test_operator_nofield_scalar_deref(
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         gen = str(psy.gen)
-        print gen
+        print(gen)
 
         if utils.TEST_COMPILE:
             assert utils.code_compiles("dynamo0.3", psy, tmpdir, f90, f90flags)
@@ -1737,7 +1737,7 @@ def test_operator_orientation(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     gen_str = str(psy.gen)
-    print gen_str
+    print(gen_str)
 
     if utils.TEST_COMPILE:
         assert utils.code_compiles("dynamo0.3", psy, tmpdir, f90, f90flags)
@@ -1770,7 +1770,7 @@ def test_op_orient_different_space(
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     gen_str = str(psy.gen)
-    print gen_str
+    print(gen_str)
 
     if utils.TEST_COMPILE:
         assert utils.code_compiles("dynamo0.3", psy, tmpdir, f90, f90flags)
@@ -1807,7 +1807,7 @@ def test_operator_deref(tmpdir, f90, f90flags):
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         if utils.TEST_COMPILE:
             assert utils.code_compiles("dynamo0.3", psy, tmpdir, f90, f90flags)
 
@@ -1837,7 +1837,7 @@ def test_operator_no_dofmap_lookup():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
     # Check that we use the field and not the operator to look-up the dofmap
     assert "theta_proxy%vspace%get_whole_dofmap()" in gen_code
     assert gen_code.count("get_whole_dofmap") == 1
@@ -1871,7 +1871,7 @@ def test_any_space_1(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
         assert utils.code_compiles("dynamo0.3", psy, tmpdir, f90, f90flags)
@@ -1912,7 +1912,7 @@ def test_any_space_2():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     assert "INTEGER, intent(in) :: istp" in generated_code
     assert generated_code.find(
         "INTEGER, pointer :: map_any_space_1_a(:,:) => null()") != -1
@@ -1938,7 +1938,7 @@ def test_op_any_space_different_space_1():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     assert generated_code.find(
         "ndf_any_space_2_a = a_proxy%fs_from%get_ndf()") != -1
     assert generated_code.find(
@@ -1953,7 +1953,7 @@ def test_op_any_space_different_space_2(
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
 
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
@@ -2135,7 +2135,7 @@ def test_kernel_specific():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     output0 = "USE enforce_bc_kernel_mod, ONLY: enforce_bc_code"
     assert output0 not in generated_code
     output1 = "USE function_space_mod, ONLY: w1, w2, w2h, w2v\n"
@@ -2171,7 +2171,7 @@ def test_multi_kernel_specific():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
 
     # Output must not contain any bc-related code
     output0 = "USE enforce_bc_kernel_mod, ONLY: enforce_bc_code"
@@ -2289,7 +2289,7 @@ def test_operator_bc_kernel():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     output1 = "INTEGER, pointer :: boundary_dofs(:,:) => null()"
     assert output1 in generated_code
     output2 = "boundary_dofs => op_a_proxy%fs_to%get_boundary_dofs()"
@@ -2367,8 +2367,8 @@ def test_operator_bc_kernel_wrong_access_err():
         loop = schedule.children[0]
         call = loop.children[0]
         arg = call.arguments.args[0]
-        print dir(arg)
-        print type(arg)
+        print(dir(arg))
+        print(type(arg))
         arg._access = "gh_read"
         with pytest.raises(GenerationError) as excinfo:
             _ = psy.gen
@@ -2386,7 +2386,7 @@ def test_multikernel_invoke_1():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     # check that argument names are not replicated
     output1 = "SUBROUTINE invoke_0(a, f1, f2, m1, m2)"
     assert generated_code.find(output1) != -1
@@ -2468,7 +2468,7 @@ def test_2kern_invoke_any_space():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     gen = str(psy.gen)
-    print gen
+    print(gen)
     assert ("INTEGER, pointer :: map_any_space_1_f1(:,:) => null(), "
             "map_any_space_1_f2(:,:) => null()\n"
             in gen)
@@ -2497,7 +2497,7 @@ def test_multikern_invoke_any_space(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     gen = str(psy.gen)
-    print gen
+    print(gen)
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
         assert utils.code_compiles("dynamo0.3", psy, tmpdir, f90, f90flags)
@@ -2542,7 +2542,7 @@ def test_mkern_invoke_multiple_any_spaces(
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     gen = str(psy.gen)
-    print gen
+    print(gen)
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
         assert utils.code_compiles("dynamo0.3", psy, tmpdir, f90, f90flags)
@@ -2727,8 +2727,8 @@ def test_stub_generate_working():
     ''' check that the stub generate produces the expected output '''
     result = generate(os.path.join(BASE_PATH, "simple.f90"),
                       api="dynamo0.3")
-    print SIMPLE
-    print result
+    print(SIMPLE)
+    print(result)
     assert str(result).find(SIMPLE) != -1
 
 
@@ -2736,7 +2736,7 @@ def test_stub_generate_working_noapi():
     ''' check that the stub generate produces the expected output when
     we use the default api (which should be dynamo0.3)'''
     result = generate(os.path.join(BASE_PATH, "simple.f90"))
-    print result
+    print(result)
     assert str(result).find(SIMPLE) != -1
 
 
@@ -2765,7 +2765,7 @@ def test_stub_generate_with_scalars():
     the kernel has scalar arguments '''
     result = generate(os.path.join(BASE_PATH, "simple_with_scalars.f90"),
                       api="dynamo0.3")
-    print result
+    print(result)
     assert str(result).find(SIMPLE_WITH_SCALARS) != -1
 
 
@@ -2864,8 +2864,8 @@ def test_intent():
         "      INTEGER, intent(in), dimension(ndf_w1) :: map_w1\n"
         "    END SUBROUTINE dummy_code\n"
         "  END MODULE dummy_mod")
-    print output
-    print str(generated_code)
+    print(output)
+    print(str(generated_code))
     assert str(generated_code).find(output) != -1
 
 
@@ -2950,8 +2950,8 @@ def test_spaces():
         "      INTEGER, intent(in), dimension(ndf_w2v) :: map_w2v\n"
         "    END SUBROUTINE dummy_code\n"
         "  END MODULE dummy_mod")
-    print output
-    print str(generated_code)
+    print(output)
+    print(str(generated_code))
     assert str(generated_code).find(output) != -1
 
 
@@ -3000,8 +3000,8 @@ def test_vectors():
         "      INTEGER, intent(in), dimension(ndf_w0) :: map_w0\n"
         "    END SUBROUTINE dummy_code\n"
         "  END MODULE dummy_mod")
-    print output
-    print str(generated_code)
+    print(output)
+    print(str(generated_code))
     assert str(generated_code).find(output) != -1
 
 
@@ -3018,7 +3018,7 @@ def test_arg_descriptor_vec_str():
         "  argument_type[0]='gh_field'*3\n"
         "  access_descriptor[1]='gh_write'\n"
         "  function_space[2]='w0'")
-    print result
+    print(result)
     assert expected_output in result
 
 
@@ -3085,8 +3085,8 @@ def test_operators():
         "ndf_any_space_1_op_5,op_5_ncell_3d) :: op_5\n"
         "    END SUBROUTINE dummy_code\n"
         "  END MODULE dummy_mod")
-    print output
-    print str(generated_code)
+    print(output)
+    print(str(generated_code))
     assert str(generated_code).find(output) != -1
 
 
@@ -3104,7 +3104,7 @@ def test_arg_descriptor_op_str():
         "  access_descriptor[1]='gh_write'\n"
         "  function_space_to[2]='w0'\n"
         "  function_space_from[3]='w0'\n")
-    print result
+    print(result)
     assert expected_output in result
 
 
@@ -3189,7 +3189,7 @@ def test_orientation_stubs():
     kernel = DynKern()
     kernel.load_meta(metadata)
     generated_code = kernel.gen_stub
-    print str(generated_code)
+    print(str(generated_code))
     assert str(generated_code).find(ORIENTATION_OUTPUT) != -1
 
 
@@ -3223,7 +3223,7 @@ def test_enforce_bc_kernel_stub_gen():
         "boundary_dofs\n"
         "    END SUBROUTINE enforce_bc_code\n"
         "  END MODULE enforce_bc_mod")
-    print str(generated_code)
+    print(str(generated_code))
     assert str(generated_code).find(output) != -1
 
 
@@ -3256,7 +3256,7 @@ def test_enforce_op_bc_kernel_stub_gen():
         "boundary_dofs\n"
         "    END SUBROUTINE enforce_operator_bc_code\n"
         "  END MODULE enforce_operator_bc_mod")
-    print generated_code
+    print(generated_code)
     assert output in generated_code
 
 
@@ -3308,8 +3308,8 @@ def test_sub_name():
         "      INTEGER, intent(in), dimension(ndf_w1) :: map_w1\n"
         "    END SUBROUTINE dummy_code\n"
         "  END MODULE dummy_mod")
-    print output
-    print str(generated_code)
+    print(output)
+    print(str(generated_code))
     assert str(generated_code).find(output) != -1
 
 
@@ -3340,7 +3340,7 @@ def test_kernel_stub_gen_cmd_line():
                  os.path.join(BASE_PATH, "dummy_orientation_mod.f90")],
                 stdout=PIPE).communicate()[0]
 
-    print "Output was: ", out
+    print("Output was: ", out)
     assert ORIENTATION_OUTPUT in out
 
 
@@ -3353,7 +3353,7 @@ def test_stub_stencil_extent():
     kernel = DynKern()
     kernel.load_meta(metadata)
     generated_code = str(kernel.gen_stub)
-    print generated_code
+    print(generated_code)
     result1 = (
         "    SUBROUTINE testkern_stencil_code(nlayers, field_1_w1, "
         "field_2_w2, field_2_stencil_size, field_2_stencil_map, field_3_w2, "
@@ -3377,7 +3377,7 @@ def test_stub_stencil_direction():
     kernel = DynKern()
     kernel.load_meta(metadata)
     generated_code = str(kernel.gen_stub)
-    print generated_code
+    print(generated_code)
     result1 = (
         "    SUBROUTINE testkern_stencil_xory1d_code(nlayers, field_1_w1, "
         "field_2_w2, field_2_stencil_size, field_2_direction, "
@@ -3402,7 +3402,7 @@ def test_stub_stencil_vector():
     kernel = DynKern()
     kernel.load_meta(metadata)
     generated_code = str(kernel.gen_stub)
-    print generated_code
+    print(generated_code)
     result1 = (
         "    SUBROUTINE testkern_stencil_vector_code(nlayers, field_1_w0_v1, "
         "field_1_w0_v2, field_1_w0_v3, field_2_w3_v1, field_2_w3_v2, "
@@ -3427,7 +3427,7 @@ def test_stub_stencil_multi():
     kernel = DynKern()
     kernel.load_meta(metadata)
     generated_code = str(kernel.gen_stub)
-    print generated_code
+    print(generated_code)
     result1 = (
         "    SUBROUTINE testkern_stencil_multi_code(nlayers, field_1_w1, "
         "field_2_w2, field_2_stencil_size, field_2_stencil_map, field_3_w2, "
@@ -3800,7 +3800,7 @@ def test_arg_descriptor_fld_str():
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[1]
     result = str(field_descriptor)
-    print result
+    print(result)
     expected_output = (
         "DynArgDescriptor03 object\n"
         "  argument_type[0]='gh_field'\n"
@@ -3817,7 +3817,7 @@ def test_arg_descriptor_real_scalar_str():
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[0]
     result = str(field_descriptor)
-    print result
+    print(result)
     expected_output = (
         "DynArgDescriptor03 object\n"
         "  argument_type[0]='gh_real'\n"
@@ -3833,7 +3833,7 @@ def test_arg_descriptor_int_scalar_str():
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[5]
     result = str(field_descriptor)
-    print result
+    print(result)
     expected_output = (
         "DynArgDescriptor03 object\n"
         "  argument_type[0]='gh_integer'\n"
@@ -3865,7 +3865,7 @@ def test_arg_descriptor_repr():
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[0]
     result = repr(field_descriptor)
-    print result
+    print(result)
     assert 'DynArgDescriptor03(arg_type(gh_real, gh_read))' \
         in result
 
@@ -4027,7 +4027,7 @@ def test_halo_dirty_1():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     expected = (
         "     END DO \n"
         "      !\n"
@@ -4043,7 +4043,7 @@ def test_halo_dirty_2():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     expected = (
         "      END DO \n"
         "      !\n"
@@ -4066,7 +4066,7 @@ def test_halo_dirty_3():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = psy.gen
-    print generated_code
+    print(generated_code)
     assert str(generated_code).count("CALL f1_proxy%set_dirty()") == 2
 
 
@@ -4076,7 +4076,7 @@ def test_halo_dirty_4():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     expected = (
         "      END DO \n"
         "      !\n"
@@ -4096,7 +4096,7 @@ def test_halo_dirty_5():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     assert "set_dirty()" not in generated_code
     assert "! Set halos dirty/clean" not in generated_code
 
@@ -4108,7 +4108,7 @@ def test_no_halo_dirty():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     assert "set_dirty()" not in generated_code
     assert "! Set halos dirty/clean" not in generated_code
 
@@ -4120,16 +4120,16 @@ def test_halo_exchange():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     output1 = (
         "     IF (f2_proxy%is_dirty(depth=f2_extent+1)) THEN\n"
         "        CALL f2_proxy%halo_exchange(depth=f2_extent+1)\n"
         "      END IF \n"
         "      !\n")
-    print output1
+    print(output1)
     assert output1 in generated_code
     output2 = ("      DO cell=1,mesh%get_last_halo_cell(1)\n")
-    print output2
+    print(output2)
     assert output2 in generated_code
 
 
@@ -4142,7 +4142,7 @@ def test_halo_exchange_inc():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     output1 = (
         "      IF (a_proxy%is_dirty(depth=1)) THEN\n"
         "        CALL a_proxy%halo_exchange(depth=1)\n"
@@ -4188,7 +4188,7 @@ def test_no_halo_exchange_for_operator():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     # This kernel reads from an operator and a scalar and these
     # do not require halos to be updated.
     assert "halo_exchange" not in result
@@ -4202,7 +4202,7 @@ def test_no_set_dirty_for_operator():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     # This kernel only writes to an operator and since operators are
     # cell-local this does not require us to call the is_dirty() method.
     assert "is_dirty" not in result
@@ -4216,7 +4216,7 @@ def test_halo_exchange_different_spaces():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     assert result.count("halo_exchange") == 9
 
 
@@ -4228,7 +4228,7 @@ def test_halo_exchange_vectors_1():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     assert result.count("halo_exchange(") == 3
     for idx in range(1, 4):
         assert "f1_proxy("+str(idx)+")%halo_exchange(depth=1)" in result
@@ -4248,7 +4248,7 @@ def test_halo_exchange_vectors():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     assert result.count("halo_exchange(") == 7
     for idx in range(1, 4):
         assert "f1_proxy("+str(idx)+")%halo_exchange(depth=1)" in result
@@ -4270,7 +4270,7 @@ def test_halo_exchange_depths():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     expected = ("      IF (f2_proxy%is_dirty(depth=extent)) THEN\n"
                 "        CALL f2_proxy%halo_exchange(depth=extent)\n"
                 "      END IF \n"
@@ -4296,7 +4296,7 @@ def test_halo_exchange_depths_gh_inc():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     expected = ("      IF (f1_proxy%is_dirty(depth=1)) THEN\n"
                 "        CALL f1_proxy%halo_exchange(depth=1)\n"
                 "      END IF \n"
@@ -4371,8 +4371,8 @@ def test_halo_exchange_view(capsys):
         "upper_bound='cell_halo(1)']\n"
         "        " + call + " testkern_stencil_code(f1,f2,f3,f4) "
         "[module_inline=False]")
-    print expected
-    print result
+    print(expected)
+    print(result)
     assert expected in result
 
 
@@ -4384,7 +4384,7 @@ def test_no_mesh_mod():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     assert "USE mesh_mod, ONLY: mesh_type" not in result
     assert "TYPE(mesh_type), pointer :: mesh => null()" not in result
     assert "mesh => a%get_mesh()" not in result
@@ -4399,7 +4399,7 @@ def test_mesh_mod():
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     assert "USE mesh_mod, ONLY: mesh_type" in result
     assert "TYPE(mesh_type), pointer :: mesh => null()" in result
     output = ("      !\n"
@@ -4512,7 +4512,7 @@ def test_intent_multi_kern():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         output = str(psy.gen)
-        print output
+        print(output)
         assert "TYPE(field_type), intent(inout) :: g, f\n" in output
         assert "TYPE(field_type), intent(inout) :: b, h\n" in output
         assert "TYPE(field_type), intent(in) :: c, d, a, e(3)\n" in output
@@ -4562,7 +4562,7 @@ def test_derived_type_arg():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         gen = str(psy.gen)
-        print gen
+        print(gen)
         # Check the four integer variables are named and declared correctly
         expected = (
             "    SUBROUTINE invoke_0(f1, my_obj_iflag, f2, m1, m2, "
@@ -4608,7 +4608,7 @@ def test_multiple_derived_type_args():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         gen = str(psy.gen)
-        print gen
+        print(gen)
         # Check the four integer variables are named and declared correctly
         expected = (
             "    SUBROUTINE invoke_0(f1, obj_a_iflag, f2, m1, m2, "
@@ -4653,7 +4653,7 @@ def test_single_stencil_extent():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "SUBROUTINE invoke_0_testkern_stencil_type(f1, f2, f3, f4, "
             "f2_extent)")
@@ -4700,7 +4700,7 @@ def test_single_stencil_xory1d():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "    SUBROUTINE invoke_0_testkern_stencil_xory1d_type(f1, f2, f3, "
             "f4, f2_extent, f2_direction)")
@@ -4755,7 +4755,7 @@ def test_single_stencil_literal():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = ("    SUBROUTINE invoke_0_testkern_stencil_type(f1, f2, "
                    "f3, f4)")
         assert output1 in result
@@ -4821,7 +4821,7 @@ def test_single_stencil_xory1d_literal():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = ("    SUBROUTINE invoke_0_testkern_stencil_xory1d_type("
                    "f1, f2, f3, f4)")
         assert output1 in result
@@ -4878,7 +4878,7 @@ def test_single_stencil_xory1d_literal_mixed():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = ("    SUBROUTINE invoke_0_testkern_stencil_xory1d_type("
                    "f1, f2, f3, f4)")
         assert output1 in result
@@ -4933,7 +4933,7 @@ def test_multiple_stencils():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "    SUBROUTINE invoke_0_testkern_stencil_multi_type(f1, f2, f3, "
             "f4, f2_extent, f3_extent, f3_direction)")
@@ -5016,7 +5016,7 @@ def test_multiple_stencil_same_name():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "    SUBROUTINE invoke_0_testkern_stencil_multi_type(f1, f2, f3, "
             "f4, extent, f3_direction)")
@@ -5083,7 +5083,7 @@ def test_multi_stencil_same_name_direction():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "SUBROUTINE invoke_0_testkern_stencil_multi_2_type(f1, f2, f3, "
             "f4, extent, direction)")
@@ -5165,7 +5165,7 @@ def test_multi_kerns_stencils_diff_fields():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "    SUBROUTINE invoke_0(f1, f2a, f3, f4, f2b, f2c, f2a_extent, "
             "extent)")
@@ -5235,7 +5235,7 @@ def test_extent_name_clash():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "    SUBROUTINE invoke_0(f2_stencil_map, f2, f2_stencil_dofmap, "
             "stencil_cross_1, f3_stencil_map, f3, f3_stencil_dofmap, "
@@ -5314,7 +5314,7 @@ def test_two_stencils_same_field():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "    SUBROUTINE invoke_0(f1_w1, f2_w2, f3_w2, f4_w3, f1_w3, "
             "f2_extent, extent)")
@@ -5380,7 +5380,7 @@ def test_stencils_same_field_literal_extent():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "      INTEGER f2_stencil_size_1\n"
             "      INTEGER, pointer :: f2_stencil_dofmap_1(:,:,:) => null()\n"
@@ -5441,7 +5441,7 @@ def test_stencils_same_field_literal_direct():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "      INTEGER f2_stencil_size_1\n"
             "      INTEGER, pointer :: f2_stencil_dofmap_1(:,:,:) => null()\n"
@@ -5567,7 +5567,7 @@ def test_one_kern_multi_field_same_stencil():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "    SUBROUTINE invoke_0_testkern_multi_field_same_stencil_type("
             "f0, f1, f2, f3, f4, extent, direction)")
@@ -5633,7 +5633,7 @@ def test_single_kernel_any_space_stencil():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "      f1_stencil_map => f1_proxy%vspace%get_stencil_dofmap("
             "STENCIL_CROSS,extent)\n"
@@ -5688,7 +5688,7 @@ def test_multi_kernel_any_space_stencil_1():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = (
             "      f1_stencil_map => f1_proxy%vspace%get_stencil_dofmap("
             "STENCIL_CROSS,extent)\n"
@@ -5725,7 +5725,7 @@ def test_stencil_args_unique_1():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         # we use f2_stencil_size for extent and nlayers for direction
         # as arguments
         output1 = ("    SUBROUTINE invoke_0_testkern_stencil_xory1d_type(f1, "
@@ -5775,7 +5775,7 @@ def test_stencil_args_unique_2():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         output1 = ("    SUBROUTINE invoke_0(f1, f2, f3, f4, f2_info, "
                    "f2_info_2, f2_info_1, f2_info_3)")
         assert output1 in result
@@ -5842,7 +5842,7 @@ def test_stencil_args_unique_3():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         result = str(psy.gen)
-        print result
+        print(result)
         assert (
             "      INTEGER, intent(in) :: my_info_f2_info, my_info_f2_info_2\n"
             "      INTEGER, intent(in) :: my_info_f2_info_1, "
@@ -5963,7 +5963,7 @@ def test_dynglobalsum_unsupported_scalar():
         api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=True).create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     schedule = psy.invokes.invoke_list[0].schedule
     loop = schedule.children[3]
     kernel = loop.children[0]
@@ -5983,7 +5983,7 @@ def test_dynglobalsum_nodm_error():
         api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
     schedule = psy.invokes.invoke_list[0].schedule
     loop = schedule.children[0]
     kernel = loop.children[0]
@@ -6100,7 +6100,7 @@ def test_itn_space_write_w3_w1():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         if dist_mem:
             output = (
                 "      !\n"
@@ -6127,7 +6127,7 @@ def test_itn_space_fld_and_op_writers():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         if dist_mem:
             output = (
                 "      !\n"
@@ -6151,7 +6151,7 @@ def test_itn_space_any_w3():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         if dist_mem:
             output = (
                 "      !\n"
@@ -6175,7 +6175,7 @@ def test_itn_space_any_w1():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         if dist_mem:
             output = (
                 "      !\n"
@@ -6395,7 +6395,7 @@ def test_multi_anyw2():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         if dist_mem:
             output = (
                 "      ! Look-up dofmaps for each function space\n"
@@ -6463,7 +6463,7 @@ def test_anyw2_vectors():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         assert "f3_proxy(1) = f3(1)%get_proxy()" in generated_code
         assert "f3_proxy(2) = f3(2)%get_proxy()" in generated_code
         assert "f3_proxy(1)%data, f3_proxy(2)%data" in generated_code
@@ -6479,7 +6479,7 @@ def test_anyw2_operators():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         output = (
             "      ! Initialise number of DoFs for any_w2\n"
             "      !\n"
@@ -6508,7 +6508,7 @@ def test_anyw2_stencils():
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
         output = (
             "      ! Initialise stencil dofmaps\n"
             "      !\n"
@@ -6528,7 +6528,7 @@ def test_stub_generate_with_anyw2():
     result = generate(os.path.join(BASE_PATH,
                                    "testkern_multi_anyw2_basis_mod.f90"),
                       api="dynamo0.3")
-    print result
+    print(result)
     expected_output = (
         "      REAL(KIND=r_def), intent(in), dimension(3,ndf_any_w2,"
         "np_xy,np_z) :: basis_any_w2\n"
@@ -6547,7 +6547,7 @@ def test_no_halo_for_discontinous():
                     api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(info)
     result = str(psy.gen)
-    print result
+    print(result)
     assert "halo_exchange" not in result
 
 
@@ -6563,7 +6563,7 @@ def test_halo_for_discontinuous():
                     api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(info)
     result = str(psy.gen)
-    print result
+    print(result)
     assert "IF (f1_proxy%is_dirty(depth=1)) THEN" in result
     assert "CALL f1_proxy%halo_exchange(depth=1)" in result
     assert "IF (f2_proxy%is_dirty(depth=1)) THEN" in result
@@ -6583,7 +6583,7 @@ def test_halo_for_discontinuous_2():
                     api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(info)
     result = str(psy.gen)
-    print result
+    print(result)
     assert "IF (f1_proxy%is_dirty(depth=1)) THEN" not in result
     assert "CALL f1_proxy%halo_exchange(depth=1)" in result
     assert "IF (f2_proxy%is_dirty(depth=1)) THEN" not in result
@@ -6987,7 +6987,7 @@ def test_no_halo_exchange_annex_dofs(
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3").create(invoke_info)
     result = str(psy.gen)
-    print result
+    print(result)
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
         assert utils.code_compiles("dynamo0.3", psy, tmpdir, f90, f90flags)

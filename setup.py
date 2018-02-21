@@ -80,7 +80,8 @@ CLASSIFIERS = [
 # Rather than importing it (which would require that PSyclone already be
 # installed), we read it using execfile().
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-execfile(os.path.join(BASE_PATH, "src", "psyclone", "version.py"))
+with open(os.path.join(BASE_PATH, "src", "psyclone", "version.py")) as f:
+    exec(f.read())
 VERSION = __VERSION__
 
 if __name__ == '__main__':

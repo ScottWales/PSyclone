@@ -50,7 +50,7 @@ from psyclone import config
 
 def check_api(api):
     ''' Check that the supplied API is valid '''
-    from config import SUPPORTEDAPIS
+    from psyclone.config import SUPPORTEDAPIS
     if api not in SUPPORTEDAPIS:
         raise ParseError(
             "check_api: Unsupported API '{0}' specified. "

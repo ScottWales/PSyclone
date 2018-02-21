@@ -36,7 +36,7 @@
 ''' This module contains tests for the multi-grid part of the Dynamo 0.3 API
     using pytest. '''
 
-from __future__ import absolute_import
+from __future__ import absolute_import, print_function
 import pytest
 import fparser
 from fparser import api as fpapi
@@ -71,7 +71,7 @@ def test_invalid_mesh_type():
     name = "restrict_kernel_type"
     with pytest.raises(ParseError) as excinfo:
         _ = DynKernMetadata(ast, name=name)
-    print str(excinfo)
+    print(str(excinfo))
     assert ("mesh_arg must be one of [\\'gh_coarse\\', "
             "\\'gh_fine\\'] but got gh_rubbish" in str(excinfo))
 
@@ -85,7 +85,7 @@ def test_invalid_mesh_specifier():
     name = "restrict_kernel_type"
     with pytest.raises(ParseError) as excinfo:
         _ = DynKernMetadata(ast, name=name)
-    print str(excinfo)
+    print(str(excinfo))
     assert ("mesh_ar=gh_coarse is not a valid mesh identifier" in
             str(excinfo))
 
@@ -163,7 +163,7 @@ def test_only_field_args():
         "mesh_arg=GH_FINE   ), &\n"
         "       arg_type(GH_REAL, GH_READ) &", 1)
     code = code.replace("(2)", "(3)", 1)
-    print code
+    print(code)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "restrict_kernel_type"
     with pytest.raises(ParseError) as excinfo:

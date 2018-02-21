@@ -42,6 +42,7 @@
     and generation. The classes in this method need to be specialised for a
     particular API and implementation. '''
 
+from __future__ import print_function
 import abc
 from psyclone import config
 
@@ -1242,14 +1243,14 @@ class Schedule(Node):
 
     def view(self, indent=0):
         '''
-        Print a text representation of this node to stdout and then
+        print(a text representation of this node to stdout and then)
         call the view() method of any children.
 
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + self.coloured_text + \
-            "[invoke='" + self.invoke.name + "']"
+        print(self.indent(indent) + self.coloured_text + \
+            "[invoke='" + self.invoke.name + "']")
         for entity in self._children:
             entity.view(indent=indent + 1)
 
@@ -1280,13 +1281,13 @@ class Directive(Node):
 
     def view(self, indent=0):
         '''
-        Print a text representation of this node to stdout and then
+        print(a text representation of this node to stdout and then)
         call the view() method of any children.
 
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + self.coloured_text
+        print(self.indent(indent) + self.coloured_text)
         for entity in self._children:
             entity.view(indent=indent + 1)
 
@@ -1316,13 +1317,13 @@ class OMPDirective(Directive):
 
     def view(self, indent=0):
         '''
-        Print a text representation of this node to stdout and then
+        print(a text representation of this node to stdout and then)
         call the view() method of any children.
 
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + self.coloured_text + "[OMP]"
+        print(self.indent(indent) + self.coloured_text + "[OMP]")
         for entity in self._children:
             entity.view(indent=indent + 1)
 
@@ -1349,13 +1350,13 @@ class OMPParallelDirective(OMPDirective):
 
     def view(self, indent=0):
         '''
-        Print a text representation of this node to stdout and then
+        print(a text representation of this node to stdout and then)
         call the view() method of any children.
 
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + self.coloured_text + "[OMP parallel]"
+        print(self.indent(indent) + self.coloured_text + "[OMP parallel]")
         for entity in self._children:
             entity.view(indent=indent + 1)
 
@@ -1519,8 +1520,8 @@ class OMPDoDirective(OMPDirective):
             reprod = "[reprod={0}]".format(self._reprod)
         else:
             reprod = ""
-        print self.indent(indent) + self.coloured_text + \
-            "[OMP do]{0}".format(reprod)
+        print(self.indent(indent) + self.coloured_text + \
+            "[OMP do]{0}".format(reprod))
 
         for entity in self._children:
             entity.view(indent=indent + 1)
@@ -1611,8 +1612,8 @@ class OMPParallelDoDirective(OMPParallelDirective, OMPDoDirective):
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + self.coloured_text + \
-            "[OMP parallel do]"
+        print(self.indent(indent) + self.coloured_text + \
+            "[OMP parallel do]")
         for entity in self._children:
             entity.view(indent=indent + 1)
 
@@ -1672,14 +1673,14 @@ class GlobalSum(Node):
 
     def view(self, indent):
         '''
-        Print text describing this object to stdout and then
+        print(text describing this object to stdout and then)
         call the view() method of any children.
 
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + (
-            "{0}[scalar='{1}']".format(self.coloured_text, self._scalar.name))
+        print(self.indent(indent) + (
+            "{0}[scalar='{1}']".format(self.coloured_text, self._scalar.name)))
 
     @property
     def coloured_text(self):
@@ -1834,11 +1835,11 @@ class HaloExchange(Node):
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + (
+        print(self.indent(indent) + (
             "{0}[field='{1}', type='{2}', depth={3}, "
             "check_dirty={4}]".format(self.coloured_text, self._field.name,
                                       self._halo_type,
-                                      self._halo_depth, self._check_dirty))
+                                      self._halo_depth, self._check_dirty)))
 
     @property
     def coloured_text(self):
@@ -1914,9 +1915,9 @@ class Loop(Node):
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + self.coloured_text + \
+        print(self.indent(indent) + self.coloured_text + \
             "[type='{0}',field_space='{1}',it_space='{2}']".\
-            format(self._loop_type, self._field_space, self.iteration_space)
+            format(self._loop_type, self._field_space, self.iteration_space))
         for entity in self._children:
             entity.view(indent=indent + 1)
 
@@ -2096,8 +2097,8 @@ class Call(Node):
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + self.coloured_text, \
-            self.name + "(" + str(self.arguments.raw_arg_list) + ")"
+        print(self.indent(indent) + self.coloured_text, \
+            self.name + "(" + str(self.arguments.raw_arg_list) + ")")
         for entity in self._children:
             entity.view(indent=indent + 1)
 
@@ -2389,9 +2390,9 @@ class Kern(Call):
         :param indent: Depth of indent for output text
         :type indent: integer
         '''
-        print self.indent(indent) + self.coloured_text, \
+        print(self.indent(indent) + self.coloured_text, \
             self.name + "(" + str(self.arguments.raw_arg_list) + ")", \
-            "[module_inline=" + str(self._module_inline) + "]"
+            "[module_inline=" + str(self._module_inline) + "]")
         for entity in self._children:
             entity.view(indent=indent + 1)
 
@@ -2862,7 +2863,7 @@ class TransInfo(object):
 
     >>> from psyclone.psyGen import TransInfo
     >>> t = TransInfo()
-    >>> print t.list
+    >>> print(t.list)
     There is 1 transformation available:
       1: SwapTrans, A test transformation
     >>> # accessing a transformation by index

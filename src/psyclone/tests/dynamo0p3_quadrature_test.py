@@ -37,7 +37,7 @@
 quadrature in the LFRic API '''
 
 
-from __future__ import absolute_import
+from __future__ import absolute_import, print_function
 import os
 import pytest
 from fparser import api as fpapi
@@ -60,7 +60,7 @@ def test_field_xyoz(tmpdir, f90, f90flags):
                            api=API)
     psy = PSyFactory(API).create(invoke_info)
     generated_code = str(psy.gen)
-    print generated_code
+    print(generated_code)
 
     if utils.TEST_COMPILE:
         assert utils.code_compiles(API, psy, tmpdir, f90, f90flags)
@@ -224,7 +224,7 @@ def test_field_qr_deref(tmpdir, f90, f90flags):
         if utils.TEST_COMPILE:
             assert utils.code_compiles(API, psy, tmpdir, f90, f90flags)
         gen = str(psy.gen)
-        print gen
+        print(gen)
         assert (
             "    SUBROUTINE invoke_0_testkern_qr_type(f1, f2, m1, a, m2, istp,"
             " qr_data)\n" in gen)
@@ -418,8 +418,8 @@ def test_qr_basis_stub():
         "      REAL(KIND=r_def), intent(in), dimension(np_z) :: weights_z\n"
         "    END SUBROUTINE dummy_code\n"
         "  END MODULE dummy_mod")
-    print output
-    print generated_code
+    print(output)
+    print(generated_code)
     assert output in generated_code
 
 
@@ -455,7 +455,7 @@ def test_stub_dbasis_wrong_shape(monkeypatch):
     from psyclone import dynamo0p3
     # Change meta-data to specify differential basis functions
     diff_basis = BASIS.replace("gh_basis", "gh_diff_basis")
-    print diff_basis
+    print(diff_basis)
     ast = fpapi.parse(diff_basis, ignore_comments=False)
     metadata = DynKernMetadata(ast)
     kernel = DynKern()

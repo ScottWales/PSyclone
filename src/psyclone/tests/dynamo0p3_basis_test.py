@@ -36,7 +36,7 @@
 ''' Module containing py.test tests for functionality related to
 evaluators in the LFRic API '''
 
-from __future__ import absolute_import
+from __future__ import absolute_import, print_function
 import os
 import pytest
 import fparser
@@ -107,7 +107,7 @@ def test_single_kern_eval(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
@@ -221,7 +221,7 @@ def test_single_kern_eval_op(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
@@ -298,7 +298,7 @@ def test_two_qr(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
@@ -440,7 +440,7 @@ def test_two_identical_qr(tmpdir, f90, f90flags):
         api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
@@ -523,7 +523,7 @@ def test_anyw2(tmpdir, f90, f90flags):
         psy = PSyFactory("dynamo0.3",
                          distributed_memory=dist_mem).create(invoke_info)
         generated_code = str(psy.gen)
-        print generated_code
+        print(generated_code)
 
         if utils.TEST_COMPILE:
             # Test that generated code compiles
@@ -575,7 +575,7 @@ def test_qr_plus_eval(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # Test that generated code compiles
@@ -710,7 +710,7 @@ def test_two_eval_same_space(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # Test that generated code compiles
@@ -781,7 +781,7 @@ def test_two_eval_diff_space(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # If compilation testing has been enabled (--compile flag to py.test)
@@ -878,7 +878,7 @@ def test_two_eval_same_var_same_space(
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # Test that generated code compiles
@@ -920,7 +920,7 @@ def test_two_eval_op_to_space(tmpdir, f90, f90flags):
                            api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # Test that generated code compiles
@@ -1037,7 +1037,7 @@ def test_eval_diff_nodal_space(tmpdir, f90, f90flags):
         api="dynamo0.3")
     psy = PSyFactory("dynamo0.3", distributed_memory=False).create(invoke_info)
     gen_code = str(psy.gen)
-    print gen_code
+    print(gen_code)
 
     if utils.TEST_COMPILE:
         # Test that generated code compiles
@@ -1180,7 +1180,7 @@ def test_basis_evaluator():
     kernel = DynKern()
     kernel.load_meta(metadata)
     generated_code = str(kernel.gen_stub)
-    print generated_code
+    print(generated_code)
     output_arg_list = (
         "    SUBROUTINE dummy_code(cell, nlayers, field_1_w0, op_2_ncell_3d, "
         "op_2, field_3_w2, op_4_ncell_3d, op_4, field_5_wtheta, "
@@ -1385,8 +1385,8 @@ def test_diff_basis():
         "      REAL(KIND=r_def), intent(in), dimension(np_z) :: weights_z\n"
         "    END SUBROUTINE dummy_code\n"
         "  END MODULE dummy_mod")
-    print output
-    print str(generated_code)
+    print(output)
+    print(str(generated_code))
     assert str(generated_code).find(output) != -1
 
 
@@ -1431,7 +1431,7 @@ def test_diff_basis_eval():
     kernel = DynKern()
     kernel.load_meta(metadata)
     generated_code = str(kernel.gen_stub)
-    print generated_code
+    print(generated_code)
     output_args = (
         "  MODULE dummy_mod\n"
         "    IMPLICIT NONE\n"

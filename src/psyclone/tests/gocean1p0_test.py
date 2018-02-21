@@ -10,7 +10,7 @@
 '''Tests for PSy-layer code generation that are specific to the
 GOcean 1.0 API.'''
 
-from __future__ import absolute_import
+from __future__ import absolute_import, print_function
 import os
 import pytest
 from psyclone.parse import parse
@@ -736,7 +736,7 @@ def test_offset_any_all_cu_points():
         "      END DO \n"
         "    END SUBROUTINE invoke_0_compute_u\n"
         "  END MODULE psy_single_invoke_test")
-    print generated_code
+    print(generated_code)
     assert generated_code.find(expected_output) != -1
 
 
@@ -778,7 +778,7 @@ def test_offset_any_all_points():
         "      END DO \n"
         "    END SUBROUTINE invoke_0_copy\n"
         "  END MODULE psy_single_invoke_test")
-    print generated_code
+    print(generated_code)
     assert generated_code.find(expected_output) != -1
 
 
@@ -848,7 +848,7 @@ def test_goschedule_str():
         "End Schedule\n")
 
     sched_str = str(schedule)
-    print sched_str
+    print(sched_str)
     assert sched_str in expected_sched
 
     # Switch-off constant loop bounds
@@ -869,7 +869,7 @@ def test_goschedule_str():
         "EndLoop\n"
         "End Schedule\n")
 
-    print sched_str
+    print(sched_str)
     assert sched_str in expected_sched
 
 

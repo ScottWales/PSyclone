@@ -42,6 +42,7 @@
     Loop, Kern, Inf, Arguments and Argument). '''
 
 # imports
+from __future__ import print_function
 import os
 import fparser
 from psyclone.parse import Descriptor, KernelType, ParseError
@@ -2769,8 +2770,8 @@ class DynSchedule(Schedule):
         '''a method implemented by all classes in a schedule which display the
         tree in a textual form. This method overrides the default view
         method to include distributed memory information '''
-        print self.indent(indent) + self.coloured_text + "[invoke='" + \
-            self.invoke.name + "' dm="+str(config.DISTRIBUTED_MEMORY)+"]"
+        print(self.indent(indent) + self.coloured_text + "[invoke='" + \
+            self.invoke.name + "' dm="+str(config.DISTRIBUTED_MEMORY)+"]")
         for entity in self._children:
             entity.view(indent=indent + 1)
 
@@ -3154,12 +3155,12 @@ class DynHaloExchange(HaloExchange):
         ''' Class specific view  '''
         _, known = self.required()
         runtime_check = not known
-        print self.indent(indent) + (
+        print(self.indent(indent) + (
             "{0}[field='{1}', type='{2}', depth={3}, "
             "check_dirty={4}]".format(self.coloured_text, self._field.name,
                                       self._compute_stencil_type(),
                                       self._compute_halo_depth(),
-                                      runtime_check))
+                                      runtime_check)))
 
     def gen_code(self, parent):
         ''' Dynamo specific code generation for this class '''
