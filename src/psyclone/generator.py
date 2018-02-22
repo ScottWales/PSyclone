@@ -85,7 +85,7 @@ def generate(filename, api="", kernel_path="", script_name=None,
     if (len(kernel_path) > 0) and (not os.access(kernel_path, os.R_OK)):
         raise IOError("kernel search path '{0}' not found".format(kernel_path))
     try:
-        from algGen import Alg
+        from psyclone.algGen import Alg
         ast, invoke_info = parse(filename, api=api, invoke_name="invoke",
                                  kernel_path=kernel_path,
                                  line_length=line_length)

@@ -10,7 +10,7 @@
     required base classes (PSy, Invokes, Invoke, Schedule, Loop, Kern,
     Arguments and Argument). '''
 
-from psyGen import PSy, Invokes, Invoke, Schedule, Loop, Kern, Arguments, \
+from psyclone.psyGen import PSy, Invokes, Invoke, Schedule, Loop, Kern, Arguments, \
                    Argument, GenerationError
 
 class DynamoPSy(PSy):

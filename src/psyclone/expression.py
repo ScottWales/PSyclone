@@ -66,9 +66,9 @@ class BinaryOperator(ExpressionNode):
         i = iter(toks[0][1:])
         try:
             while True:
-                tok = i.next()
+                tok = next(i)
                 self.symbols.append(tok)
-                tok = i.next()
+                tok = next(i)
                 self.operands.append(tok)
         except StopIteration:
             pass
