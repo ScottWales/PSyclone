@@ -29,7 +29,7 @@ class DynamoPSy(PSy):
         :rtype: ast
 
         '''
-        from f2pygen import ModuleGen, UseGen
+        from psyclone.f2pygen import ModuleGen, UseGen
 
         # create an empty PSy layer module
         psy_module = ModuleGen(self.name)
@@ -65,7 +65,7 @@ class DynInvoke(Invoke):
             by the associated invoke call in the algorithm layer). This
             consists of the PSy invocation subroutine and the declaration of
             its arguments.'''
-        from f2pygen import SubroutineGen, TypeDeclGen
+        from psyclone.f2pygen import SubroutineGen, TypeDeclGen
         # create the subroutine
         invoke_sub = SubroutineGen(parent, name = self.name,
                                    args = self.psy_unique_var_names)
@@ -174,7 +174,7 @@ class DynKern(Kern):
     def gen_code(self, parent):
         ''' Generates dynamo version 0.1 specific psy code for a call to
             the dynamo kernel instance. '''
-        from f2pygen import CallGen, DeclGen, AssignGen, UseGen
+        from psyclone.f2pygen import CallGen, DeclGen, AssignGen, UseGen
 
         # TODO: we simply choose the first field as the lookup for the moment
         field_name = self.arguments.args[0].name
