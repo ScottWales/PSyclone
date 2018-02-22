@@ -65,7 +65,7 @@ end module restrict_mod
 def test_invalid_mesh_type():
     ''' Check that we raise an error if an unrecognised name is supplied
     for the mesh associated with a field argument '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = RESTRICT_MDATA.replace("GH_COARSE", "GH_RUBBISH", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "restrict_kernel_type"
@@ -78,7 +78,7 @@ def test_invalid_mesh_type():
 
 def test_invalid_mesh_specifier():
     ''' Check that we raise an error if "mesh_arg" is mis-spelt '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = RESTRICT_MDATA.replace("mesh_arg=GH_COARSE",
                                   "mesh_ar=GH_COARSE", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -93,7 +93,7 @@ def test_invalid_mesh_specifier():
 def test_all_args_same_mesh_error():
     ''' Check that we reject a kernel if all arguments are specified
     as being on the same mesh (coarse or fine) '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Both on fine mesh
     code = RESTRICT_MDATA.replace("GH_COARSE", "GH_FINE", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -139,7 +139,7 @@ def test_all_fields_have_mesh():
 def test_args_same_space_error():
     ''' Check that we reject a kernel if arguments on different meshes
     are specified as being on the same function space '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = RESTRICT_MDATA.replace("ANY_SPACE_2", "ANY_SPACE_1", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "restrict_kernel_type"
@@ -154,7 +154,7 @@ def test_args_same_space_error():
 def test_only_field_args():
     ''' Check that we reject an inter-grid kernel if it has any arguments
     that are not fields '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Add a scalar argument to the kernel
     code = RESTRICT_MDATA.replace(
         "       arg_type(GH_FIELD, GH_READ,  ANY_SPACE_2, "
@@ -176,7 +176,7 @@ def test_only_field_args():
 def test_field_vector():
     ''' Check that we accept an inter-grid kernel with field-vector
     arguments '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Change both of the arguments to be vectors
     code = RESTRICT_MDATA.replace("GH_FIELD,", "GH_FIELD*2,", 2)
     ast = fpapi.parse(code, ignore_comments=False)

@@ -613,7 +613,7 @@ def test_written_arg():
     # Change the kernel metadata so that the only kernel argument has
     # read access
     import fparser
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # If we change the meta-data then we trip the check in the parser.
     # Therefore, we change the object produced by parsing the meta-data
     # instead

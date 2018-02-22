@@ -75,7 +75,7 @@ def generate(filename, api=""):
 
     # drop cache
     fparser.parsefortran.FortranParser.cache.clear()
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     try:
         ast = fparser.api.parse(filename, ignore_comments=False)
 

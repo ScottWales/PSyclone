@@ -75,7 +75,7 @@ end module testkern_eval
 
 def test_eval_mdata():
     ''' Check that we recognise "evaluator" as a valid gh_shape '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     dkm = DynKernMetadata(ast, name="testkern_eval_type")
     assert dkm.get_integer_variable('gh_shape') == 'gh_evaluator'
@@ -84,7 +84,7 @@ def test_eval_mdata():
 def test_single_updated_arg():
     ''' Check that we reject any kernel requiring an evaluator
     if it writes to more than one argument '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Change the access of the read-only argument
     code = CODE.replace("GH_READ", "GH_WRITE", 1)
     ast = fpapi.parse(code, ignore_comments=False)

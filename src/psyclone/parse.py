@@ -422,7 +422,7 @@ class KernelTypeFactory(object):
 
     def __init__(self, api=""):
         if api == "":
-            from config import DEFAULTAPI
+            from psyclone.config import DEFAULTAPI
             self._type = DEFAULTAPI
         else:
             check_api(api)
@@ -894,7 +894,7 @@ def parse(alg_filename, api="", invoke_name="invoke", inf_name="inf",
 
     # drop cache
     fparser.parsefortran.FortranParser.cache.clear()
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     if not os.path.isfile(alg_filename):
         raise IOError("File %s not found" % alg_filename)
     try:

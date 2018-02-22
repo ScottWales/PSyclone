@@ -109,7 +109,7 @@ end module testkern_qr
 def test_arg_descriptor_wrong_type():
     ''' Tests that an error is raised when the argument descriptor
     metadata is not of type arg_type. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_field,gh_read, w2)",
                         "arg_typ(gh_field,gh_read, w2)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -122,7 +122,7 @@ def test_arg_descriptor_wrong_type():
 
 def test_arg_descriptor_vector_str():
     ''' Test the str method of an argument descriptor containing a vector '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Change the meta-data so that the second argument is a vector
     code = CODE.replace("gh_field,gh_write,w1", "gh_field*3,gh_write,w1", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -140,7 +140,7 @@ def test_arg_descriptor_vector_str():
 def test_ad_scalar_type_too_few_args():
     ''' Tests that an error is raised when the argument descriptor
     metadata for a real or an integer scalar has fewer than 2 args. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     name = "testkern_qr_type"
     for argname in VALID_SCALAR_NAMES:
         code = CODE.replace("arg_type(" + argname + ", gh_read)",
@@ -155,7 +155,7 @@ def test_ad_scalar_type_too_few_args():
 def test_ad_scalar_type_too_many_args():
     ''' Tests that an error is raised when the argument descriptor
     metadata for a real or an integer scalar has more than 2 args. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     name = "testkern_qr_type"
     for argname in VALID_SCALAR_NAMES:
         code = CODE.replace("arg_type(" + argname + ", gh_read)",
@@ -170,7 +170,7 @@ def test_ad_scalar_type_too_many_args():
 def test_ad_scalar_type_no_write():
     ''' Tests that an error is raised when the argument descriptor
     metadata for a real or an integer scalar specifies GH_WRITE '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     name = "testkern_qr_type"
     for argname in VALID_SCALAR_NAMES:
         code = CODE.replace("arg_type(" + argname + ", gh_read)",
@@ -185,7 +185,7 @@ def test_ad_scalar_type_no_write():
 def test_ad_scalar_type_no_inc():
     ''' Tests that an error is raised when the argument descriptor
     metadata for a real or an integer scalar specifies GH_INC '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     name = "testkern_qr_type"
     for argname in VALID_SCALAR_NAMES:
         code = CODE.replace("arg_type(" + argname + ", gh_read)",
@@ -200,7 +200,7 @@ def test_ad_scalar_type_no_inc():
 def test_ad_int_scalar_type_no_sum():
     ''' Tests that an error is raised when the argument descriptor
     metadata for an integer scalar specifies GH_SUM (reduction) '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_integer, gh_read)",
                         "arg_type(gh_integer, gh_sum)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -214,7 +214,7 @@ def test_ad_int_scalar_type_no_sum():
 def test_ad_field_type_too_few_args():
     ''' Tests that an error is raised when the argument descriptor
     metadata for a field has fewer than 3 args. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_field,gh_write,w1)",
                         "arg_type(gh_field,gh_write)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -228,7 +228,7 @@ def test_ad_field_type_too_few_args():
 def test_ad_fld_type_too_many_args():
     ''' Tests that an error is raised when the argument descriptor
     metadata has more than 4 args. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_field,gh_write,w1)",
                         "arg_type(gh_field,gh_write,w1,w1,w2)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -242,7 +242,7 @@ def test_ad_fld_type_too_many_args():
 def test_ad_fld_type_1st_arg():
     ''' Tests that an error is raised when the 1st argument is
     invalid'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_field,gh_write,w1)",
                         "arg_type(gh_hedge,gh_write,w1)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -256,7 +256,7 @@ def test_ad_fld_type_1st_arg():
 def test_ad_op_type_too_few_args():
     ''' Tests that an error is raised when the operator descriptor
     metadata has fewer than 4 args. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_operator,gh_read, w2, w2)",
                         "arg_type(gh_operator,gh_read, w2)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -269,7 +269,7 @@ def test_ad_op_type_too_few_args():
 def test_ad_op_type_too_many_args():
     ''' Tests that an error is raised when the operator descriptor
     metadata has more than 4 args. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_operator,gh_read, w2, w2)",
                         "arg_type(gh_operator,gh_read, w2, w2, w2)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -282,7 +282,7 @@ def test_ad_op_type_too_many_args():
 def test_ad_op_type_wrong_3rd_arg():
     ''' Tests that an error is raised when the 3rd entry in the operator
     descriptor metadata is invalid. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_operator,gh_read, w2, w2)",
                         "arg_type(gh_operator,gh_read, woops, w2)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -296,7 +296,7 @@ def test_ad_op_type_wrong_3rd_arg():
 def test_ad_op_type_1st_arg_not_space():
     ''' Tests that an error is raised when the operator descriptor
     metadata contains something that is not a valid space. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_operator,gh_read, w2, w2)",
                         "arg_type(gh_operator,gh_read, wbroke, w2)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -310,7 +310,7 @@ def test_ad_op_type_1st_arg_not_space():
 def test_ad_invalid_type():
     ''' Tests that an error is raised when an invalid descriptor type
     name is provided as the first argument. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("gh_operator", "gh_operato", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -323,7 +323,7 @@ def test_ad_invalid_type():
 def test_ad_invalid_access_type():
     ''' Tests that an error is raised when an invalid access
     name is provided as the second argument. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("gh_read", "gh_ead", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -335,7 +335,7 @@ def test_ad_invalid_access_type():
 def test_arg_descriptor_invalid_fs1():
     ''' Tests that an error is raised when an invalid function space
     name is provided as the third argument. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("gh_field,gh_read, w3", "gh_field,gh_read, w4", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -347,7 +347,7 @@ def test_arg_descriptor_invalid_fs1():
 def test_arg_descriptor_invalid_fs2():
     ''' Tests that an error is raised when an invalid function space
     name is provided as the third argument. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("w2, w2", "w2, w4", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -359,7 +359,7 @@ def test_arg_descriptor_invalid_fs2():
 def test_invalid_vector_operator():
     ''' Tests that an error is raised when a vector does not use "*"
     as it's operator. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("gh_field,gh_write,w1", "gh_field+3,gh_write,w1", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -371,7 +371,7 @@ def test_invalid_vector_operator():
 def test_invalid_vector_value_type():
     ''' Tests that an error is raised when a vector value is not a valid
     integer '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("gh_field,gh_write,w1", "gh_field*n,gh_write,w1", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -383,7 +383,7 @@ def test_invalid_vector_value_type():
 def test_invalid_vector_value_range():
     ''' Tests that an error is raised when a vector value is not a valid
     value (<2) '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("gh_field,gh_write,w1", "gh_field*1,gh_write,w1", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -398,7 +398,7 @@ def test_invalid_vector_value_range():
 def test_fs_descriptor_wrong_type():
     ''' Tests that an error is raised when the function space descriptor
     metadata is not of type func_type. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("func_type(w2", "funced_up_type(w2", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -411,7 +411,7 @@ def test_fs_descriptor_wrong_type():
 def test_fs_descriptor_too_few_args():
     ''' Tests that an error is raised when there are two few arguments in
     the function space descriptor metadata (must be at least 2). '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("w1, gh_basis", "w1", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -423,7 +423,7 @@ def test_fs_descriptor_too_few_args():
 def test_fs_desc_invalid_fs_type():
     ''' Tests that an error is raised when an invalid function space name
     is provided as the first argument. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("w3, gh_basis", "w4, gh_basis", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -436,7 +436,7 @@ def test_fs_desc_invalid_fs_type():
 def test_fs_desc_replicated_fs_type():
     ''' Tests that an error is raised when a function space name
     is replicated. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("w3, gh_basis", "w1, gh_basis", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -449,7 +449,7 @@ def test_fs_desc_replicated_fs_type():
 def test_fs_desc_invalid_op_type():
     ''' Tests that an error is raised when an invalid function space
     operator name is provided as an argument. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("w2, gh_diff_basis", "w2, gh_dif_basis", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -462,7 +462,7 @@ def test_fs_desc_invalid_op_type():
 def test_fs_desc_replicated_op_type():
     ''' Tests that an error is raised when a function space
     operator name is replicated as an argument. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("w3, gh_basis, gh_diff_basis",
                         "w3, gh_basis, gh_basis", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -476,7 +476,7 @@ def test_fs_desc_replicated_op_type():
 def test_fsdesc_fs_not_in_argdesc():
     ''' Tests that an error is raised when a function space
     name is provided that has not been used in the arg descriptor. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("w3, gh_basis", "w0, gh_basis", 1)
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_qr_type"
@@ -489,7 +489,7 @@ def test_fsdesc_fs_not_in_argdesc():
 def test_missing_shape_both():
     ''' Check that we raise the correct error if a kernel requiring
     quadrature/evaluator fails to specify the shape of the evaluator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Remove the line specifying the shape of the evaluator
     code = CODE.replace(
         "     integer, parameter :: gh_shape = gh_quadrature_XYoZ\n",
@@ -506,7 +506,7 @@ def test_missing_shape_both():
 def test_missing_shape_basis_only():
     ''' Check that we raise the correct error if a kernel specifying
     that it needs gh_basis fails to specify the shape of the evaluator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Alter meta-data so only requires gh_basis
     code1 = CODE.replace(
         "     type(func_type), dimension(3) :: meta_funcs =  &\n"
@@ -531,7 +531,7 @@ def test_missing_shape_basis_only():
 def test_missing_eval_shape_diff_basis_only():
     ''' Check that we raise the correct error if a kernel specifying
     that it needs gh_diff_basis fails to specify the shape of the evaluator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Alter meta-data so only requires gh_diff_basis
     code1 = CODE.replace(
         "     type(func_type), dimension(3) :: meta_funcs =  &\n"
@@ -556,7 +556,7 @@ def test_missing_eval_shape_diff_basis_only():
 def test_invalid_shape():
     ''' Check that we raise the correct error if a kernel requiring
     quadrature/evaluator specifies an unrecognised shape for the evaluator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Specify an invalid shape for the evaluator
     code = CODE.replace(
         "gh_shape = gh_quadrature_XYoZ",
@@ -574,7 +574,7 @@ def test_invalid_shape():
 def test_unecessary_shape():
     ''' Check that we raise the correct error if a kernel meta-data specifies
     an evaluator shape but does not require quadrature or an evaluator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Remove the need for basis or diff-basis functions
     code = CODE.replace(
         "     type(func_type), dimension(3) :: meta_funcs =  &\n"
@@ -1375,7 +1375,7 @@ def test_two_scalars():
 def test_no_vector_scalar():
     ''' Tests that we raise an error when kernel meta-data erroneously
     specifies a vector real or integer scalar '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     name = "testkern_qr_type"
     for argname in VALID_SCALAR_NAMES:
         code = CODE.replace("arg_type(" + argname + ", gh_read)",
@@ -2826,7 +2826,7 @@ end module dummy_mod
 def test_load_meta_wrong_type():
     ''' Test that the load_meta function raises an appropriate error
     if the meta-data contains an un-recognised type '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(INTENT, ignore_comments=False)
     metadata = DynKernMetadata(ast)
     kernel = DynKern()
@@ -3008,7 +3008,7 @@ def test_vectors():
 def test_arg_descriptor_vec_str():
     ''' Tests that the string method for DynArgDescriptor03 works as
     expected when we have a vector quantity '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(VECTORS, ignore_comments=False)
     metadata = DynKernMetadata(ast)
     field_descriptor = metadata.arg_descriptors[0]
@@ -3093,7 +3093,7 @@ def test_operators():
 def test_arg_descriptor_op_str():
     ''' Tests that the string method for DynArgDescriptor03 works as
     expected when we have an operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(OPERATORS, ignore_comments=False)
     metadata = DynKernMetadata(ast)
     field_descriptor = metadata.arg_descriptors[0]
@@ -3656,7 +3656,7 @@ def test_arg_descriptor_funcs_method_error():
     when function_spaces is called and the internal type is an
     unexpected value. It should not be possible to get to here so we
     need to mess about with internal values to trip this.'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[0]
@@ -3781,7 +3781,7 @@ def test_arg_descriptor_func_method_error():
     when function_space is called and the internal type is an
     unexpected value. It should not be possible to get to here so we
     need to mess about with internal values to trip this.'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[0]
@@ -3795,7 +3795,7 @@ def test_arg_descriptor_func_method_error():
 def test_arg_descriptor_fld_str():
     ''' Tests that the string method for DynArgDescriptor03 works as
     expected for a field argument'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[1]
@@ -3812,7 +3812,7 @@ def test_arg_descriptor_fld_str():
 def test_arg_descriptor_real_scalar_str():
     ''' Tests that the string method for DynArgDescriptor03 works as
     expected for a real scalar argument'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[0]
@@ -3828,7 +3828,7 @@ def test_arg_descriptor_real_scalar_str():
 def test_arg_descriptor_int_scalar_str():
     ''' Tests that the string method for DynArgDescriptor03 works as
     expected for an integer scalar argument'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[5]
@@ -3846,7 +3846,7 @@ def test_arg_descriptor_str_error():
     when __str__ is called and the internal type is an
     unexpected value. It should not be possible to get to here so we
     need to mess about with internal values to trip this.'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[0]
@@ -3860,7 +3860,7 @@ def test_arg_descriptor_str_error():
 def test_arg_descriptor_repr():
     ''' Tests that the repr method for DynArgDescriptor03 works as
     expected '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[0]
@@ -3874,7 +3874,7 @@ def test_arg_desc_func_space_tofrom_err():
     ''' Tests that an internal error is raised in DynArgDescriptor03
     when function_space_to or function_space_from is called and the
     internal type is not gh_operator.'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[0]
@@ -3954,7 +3954,7 @@ def test_arg_descriptor_init_error():
     when an invalid type is provided. However this error never gets
     tripped due to an earlier test so we need to force the error by
     changing the internal state.'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     field_descriptor = metadata.arg_descriptors[0]
@@ -3979,7 +3979,7 @@ def test_arg_descriptor_init_error():
 
 def test_func_descriptor_repr():
     ''' Tests the __repr__ output of a func_descriptor '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     func_descriptor = metadata.func_descriptors[0]
@@ -3989,7 +3989,7 @@ def test_func_descriptor_repr():
 
 def test_func_descriptor_str():
     ''' Tests the __str__ output of a func_descriptor '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     ast = fpapi.parse(CODE, ignore_comments=False)
     metadata = DynKernMetadata(ast, name="testkern_qr_type")
     func_descriptor = metadata.func_descriptors[0]
@@ -4320,7 +4320,7 @@ def test_halo_exchange_depths_gh_inc():
 def test_stencil_read_only():
     '''test that an error is raised if a field with a stencil is not
     accessed as gh_read'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = STENCIL_CODE.replace("gh_read, w2, stencil(cross)",
                                 "gh_write, w2, stencil(cross)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -4332,7 +4332,7 @@ def test_stencil_read_only():
 def test_w3_and_inc_error():
     '''test that an error is raised if w3 and gh_inc are provided for the
     same field in the metadata '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_field,gh_read, w3)",
                         "arg_type(gh_field,gh_inc, w3)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -4522,7 +4522,7 @@ def test_intent_multi_kern():
 def test_field_gh_sum_invalid():
     ''' Tests that an error is raised when a field is specified with
     access type gh_sum '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_field,gh_read, w2)",
                         "arg_type(gh_field, gh_sum, w2)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -4537,7 +4537,7 @@ def test_field_gh_sum_invalid():
 def test_operator_gh_sum_invalid():
     ''' Tests that an error is raised when an operator is specified with
     access type gh_sum '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_operator,gh_read, w2, w2)",
                         "arg_type(gh_operator, gh_sum, w2, w2)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -5997,7 +5997,7 @@ def test_dynglobalsum_nodm_error():
 def test_no_updated_args():
     ''' Check that we raise the expected exception when we encounter a
     kernel that does not write to any of its arguments '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_field,gh_write,w1)",
                         "arg_type(gh_field,gh_read,w1)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -6012,7 +6012,7 @@ def test_no_updated_args():
 def test_scalars_only_invalid():
     ''' Check that we raise the expected exception if we encounter a
     kernel that only has (read-only) scalar arguments '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = '''
 module testkern
   type, extends(kernel_type) :: testkern_type
@@ -6041,7 +6041,7 @@ end module testkern
 def test_multiple_updated_field_args():
     ''' Check that we successfully parse a kernel that writes to more
     than one of its field arguments '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_field,gh_read, w2)",
                         "arg_type(gh_field,gh_write, w1)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -6057,7 +6057,7 @@ def test_multiple_updated_field_args():
 def test_multiple_updated_op_args():
     ''' Check that we successfully parse the metadata for a kernel that
     writes to more than one of its field and operator arguments '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_operator,gh_read, w2, w2)",
                         "arg_type(gh_operator,gh_write, w1, w1)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -6075,7 +6075,7 @@ def test_multiple_updated_op_args():
 def test_multiple_updated_scalar_args():
     ''' Check that we raise the expected exception when we encounter a
     kernel that writes to more than one of its field and scalar arguments '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CODE.replace("arg_type(gh_real, gh_read)",
                         "arg_type(gh_real, gh_sum)", 1)
     ast = fpapi.parse(code, ignore_comments=False)

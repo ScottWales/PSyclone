@@ -78,7 +78,7 @@ end module testkern_cma
 def test_cma_mdata_assembly():
     ''' Check that we can parse meta-data entries relating to Column-Matrix
     Assembly '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_ASSEMBLE
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_cma_type"
@@ -99,7 +99,7 @@ def test_cma_mdata_assembly_missing_op():
     ''' Check that we raise the expected error if the supplied meta-data
     is assembling a gh_columnwise_operator but doesn't have a read-only
     gh_operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Remove  the (required) LMA operator
     code = CMA_ASSEMBLE.replace(
         "arg_type(gh_operator,gh_read, any_space_1, any_space_2),", "", 1)
@@ -117,7 +117,7 @@ def test_cma_mdata_assembly_missing_op():
 def test_cma_mdata_multi_writes():
     ''' Check that we raise the expected error if the supplied meta-data
     specifies more than one CMA operator that is written to '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Replace the field arg with another CMA operator that is written to
     code = CMA_ASSEMBLE.replace(
         "arg_type(gh_field,gh_read, any_space_1)",
@@ -148,7 +148,7 @@ def test_cma_mdata_mutable_op():
     ''' Check that we raise the expected error if the supplied meta-data
     is assembling a gh_columnwise_operator but doesn't have a read-only
     gh_operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Make the LMA operator gh_write instead of gh_read
     code = CMA_ASSEMBLE.replace(
         "arg_type(gh_operator,gh_read, any_space_1, any_space_2),",
@@ -166,7 +166,7 @@ def test_cma_mdata_writes_lma_op():
     ''' Check that we raise the expected error if the supplied meta-data
     is assembling a gh_columnwise_operator but also writes to a
     gh_operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Add an additional LMA operator that has write access
     code = CMA_ASSEMBLE.replace(
         "arg_type(gh_operator,gh_read, any_space_1, any_space_2), &\n",
@@ -186,7 +186,7 @@ def test_cma_mdata_assembly_diff_spaces():
     ''' Check that we successfully parse the supplied meta-data if it
     is assembling a gh_columnwise_operator but the to/from spaces don't
     match those of the supplied gh_operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Change the to space of the LMA operator
     code = CMA_ASSEMBLE.replace(
         "arg_type(gh_operator,gh_read, any_space_1, any_space_2),",
@@ -208,7 +208,7 @@ def test_cma_mdata_assembly_diff_spaces():
 def test_cma_mdata_asm_vector_error():
     ''' Check that we raise the expected error if a kernel assembling a
     CMA operator has any vector arguments '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Change the space of the field that is written
     code = CMA_ASSEMBLE.replace(
         "arg_type(gh_field,gh_read, any_space_1)",
@@ -232,7 +232,7 @@ def test_cma_mdata_asm_vector_error():
 def test_cma_mdata_asm_stencil_error():
     ''' Check that we raise the expected error if a kernel assembling a
     CMA operator specifies a stencil access on a field'''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Change the space of the field that is written
     code = CMA_ASSEMBLE.replace(
         "arg_type(gh_field,gh_read, any_space_1)",
@@ -268,7 +268,7 @@ end module testkern_cma_apply
 def test_cma_mdata_apply():
     ''' Check that we can parse meta-data entries relating to the
     application of Column-Matrix operators '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_APPLY
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_cma_type"
@@ -295,7 +295,7 @@ def test_cma_mdata_apply():
 def test_cma_mdata_apply_too_many_ops():
     ''' Check that we raise the expected error if there are too-many
     CMA operators '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Add an additional read-only CMA operator to the argument list
     code = CMA_APPLY.replace(
         "ANY_SPACE_2),                        &\n",
@@ -314,7 +314,7 @@ def test_cma_mdata_apply_too_many_ops():
 def test_cma_mdata_apply_too_many_flds():
     ''' Check that we raise the expected error if there are too-many
     field args to a kernel that applies a CMA operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Add an additional read-only field to the argument list
     code = CMA_APPLY.replace(
         "ANY_SPACE_2),                        &\n",
@@ -333,7 +333,7 @@ def test_cma_mdata_apply_too_many_flds():
 def test_cma_mdata_apply_no_read_fld():
     ''' Check that we raise the expected error if there is no read-only
     field arg to a kernel that applies a CMA operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Make the read-only field gh_write instead
     code = CMA_APPLY.replace(
         "arg_type(GH_FIELD,    GH_READ, ANY_SPACE_2), ",
@@ -349,7 +349,7 @@ def test_cma_mdata_apply_no_read_fld():
 def test_cma_mdata_apply_no_write_fld():
     ''' Check that we raise the expected error if there is no written
     field arg to a kernel that applies a CMA operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Turn the written field into an operator instead
     code = CMA_APPLY.replace(
         "arg_type(GH_FIELD,    GH_INC,  ANY_SPACE_1), ",
@@ -366,7 +366,7 @@ def test_cma_mdata_apply_wrong_spaces():
     ''' Check that we raise the expected error if the function spaces of the
     read and write fields do not match the from and to function spaces of the
     CMA operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     # Change the space of the field that is written
     code = CMA_APPLY.replace("arg_type(GH_FIELD,    GH_INC,  ANY_SPACE_1)",
                              "arg_type(GH_FIELD,    GH_INC,  ANY_SPACE_3)", 1)
@@ -392,7 +392,7 @@ def test_cma_mdata_apply_wrong_spaces():
 def test_cma_mdata_apply_vector_error():
     ''' Check that we raise the expected error if the meta-data for a kernel
     that applies a CMA operator contains a vector argument '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_APPLY.replace("arg_type(GH_FIELD,    GH_INC,  ANY_SPACE_1)",
                              "arg_type(GH_FIELD*3,  GH_INC,  ANY_SPACE_1)", 1)
     ast = fpapi.parse(code, ignore_comments=False)
@@ -415,7 +415,7 @@ def test_cma_mdata_apply_fld_stencil_error():
     ''' Check that we raise the expected error if the meta-data for a kernel
     that applies a CMA operator contains a field argument with a stencil
     access '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_APPLY.replace(
         "arg_type(GH_FIELD,    GH_READ, ANY_SPACE_2)",
         "arg_type(GH_FIELD,    GH_READ, ANY_SPACE_2, STENCIL(X1D))", 1)
@@ -451,7 +451,7 @@ end module testkern_cma_matrix_matrix
 def test_cma_mdata_matrix_prod():
     ''' Check that we can parse meta-data entries relating to a kernel
     that performs a product of two CMA operators '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_MATRIX
     ast = fpapi.parse(code, ignore_comments=False)
     name = "testkern_cma_type"
@@ -471,7 +471,7 @@ def test_cma_mdata_matrix_prod():
 def test_cma_mdata_matrix_too_few_args():
     ''' Check that we raise the expected error when there are too few
     arguments specified in meta-data '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_MATRIX.replace(
         "       arg_type(GH_COLUMNWISE_OPERATOR, GH_READ, ANY_SPACE_1, "
         "ANY_SPACE_2),&\n", "", 2)
@@ -490,7 +490,7 @@ def test_cma_mdata_matrix_field_arg():
     reads from a field argument. Adding an argument that is not a CMA
     operator or scalar means that PSyclone attempts to identify this as an
     assembly kernel. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_MATRIX.replace(
         "arg_type(GH_COLUMNWISE_OPERATOR, GH_READ, ANY_SPACE_1, "
         "ANY_SPACE_2)", "arg_type(GH_FIELD, GH_READ, ANY_SPACE_1)", 1)
@@ -506,7 +506,7 @@ def test_cma_mdata_matrix_field_arg():
 def test_cma_mdata_matrix_no_scalar_arg():
     ''' Check that we successfully parse meta-data for a matrix-matrix kernel
     that has no scalar arguments. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_MATRIX.replace(
         "arg_type(GH_REAL,                GH_READ)",
         "arg_type(GH_COLUMNWISE_OPERATOR, GH_READ, ANY_SPACE_1, ANY_SPACE_2)",
@@ -520,7 +520,7 @@ def test_cma_mdata_matrix_no_scalar_arg():
 def test_cma_mdata_matrix_2_scalar_args():
     ''' Check that we successfully parse meta-data for a matrix-matrix kernel
     that has 2 scalar arguments. '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_MATRIX.replace(
         "arg_type(GH_COLUMNWISE_OPERATOR, GH_READ, ANY_SPACE_1, ANY_SPACE_2)",
         "arg_type(GH_REAL,                GH_READ)",
@@ -535,7 +535,7 @@ def test_cma_mdata_matrix_2_scalar_args():
 def test_cma_mdata_matrix_2_writes():
     ''' Check that we raise the expected error when a matrix-matrix kernel
     writes to more than one CMA operator '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_MATRIX.replace(
         "arg_type(GH_COLUMNWISE_OPERATOR, GH_READ, ANY_SPACE_1, "
         "ANY_SPACE_2),&\n",
@@ -556,7 +556,7 @@ def test_cma_mdata_matrix_2_writes():
 def test_cma_mdata_stencil_invalid():
     ''' Check that we raise the expected error when a matrix-matrix kernel
     specifies a stencil '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_MATRIX.replace(
         "arg_type(GH_COLUMNWISE_OPERATOR, GH_WRITE,ANY_SPACE_1, ANY_SPACE_2)",
         "arg_type(GH_COLUMNWISE_OPERATOR, GH_WRITE,ANY_SPACE_1, "
@@ -582,7 +582,7 @@ def test_cma_mdata_stencil_invalid():
 def test_cma_mdata_matrix_vector_error():
     ''' Check that we raise the expected error when a matrix-matrix kernel
     contains a vector argument '''
-    fparser.logging.disable('CRITICAL')
+    fparser.logging.disable(fparser.logging.CRITICAL)
     code = CMA_MATRIX.replace(
         "arg_type(GH_COLUMNWISE_OPERATOR, GH_WRITE,ANY_SPACE_1, ANY_SPACE_2)",
         "arg_type(GH_COLUMNWISE_OPERATOR*3,GH_WRITE,ANY_SPACE_1,ANY_SPACE_2)",
