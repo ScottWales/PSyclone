@@ -2277,7 +2277,7 @@ class Call(Node):
             raise GenerationError(
                 "unsupported reduction access '{0}' found in DynBuiltin:"
                 "reduction_sum_loop(). Expected one of '{1}'".
-                format(reduction_access, REDUCTION_OPERATOR_MAPPING.keys()))
+                format(reduction_access, list(REDUCTION_OPERATOR_MAPPING.keys())))
         do_loop = DoGen(parent, thread_idx, "1", nthreads)
         do_loop.add(AssignGen(do_loop, lhs=var_name, rhs=var_name +
                               reduction_operator + local_var_ref))
