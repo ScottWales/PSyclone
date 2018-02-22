@@ -44,6 +44,7 @@
 
 from __future__ import print_function
 import abc
+import six
 from psyclone import config
 
 # We use the termcolor module (if available) to enable us to produce
@@ -2946,10 +2947,10 @@ class TransInfo(object):
                 issubclass(cls, base_class) and cls is not base_class]
 
 
+@six.add_metaclass(abc.ABCMeta)
 class Transformation(object):
     ''' abstract baseclass for a transformation. Uses the abc module so it
         can not be instantiated. '''
-    __metaclass__ = abc.ABCMeta
 
     @abc.abstractproperty
     def name(self):
