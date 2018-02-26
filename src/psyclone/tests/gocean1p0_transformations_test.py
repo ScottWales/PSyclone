@@ -39,7 +39,7 @@ def get_invoke(algfile, idx):
     # invokes does not have a method by which to request the i'th
     # in the list so we do this rather clumsy lookup of the name
     # of the invoke that we want
-    invoke = invokes.get(invokes.names[idx])
+    invoke = invokes.get(list(invokes.names)[idx])
     return psy, invoke
 
 
