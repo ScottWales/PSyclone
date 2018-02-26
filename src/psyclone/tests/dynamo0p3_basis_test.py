@@ -206,7 +206,7 @@ def test_single_kern_eval(tmpdir, f90, f90flags):
     )
     assert expected_code in gen_code
     dealloc_code = (
-        "      DEALLOCATE (diff_basis_w1_on_w0, basis_w0_on_w0)\n"
+        "      DEALLOCATE (basis_w0_on_w0, diff_basis_w1_on_w0)\n"
         "      !\n"
         "    END SUBROUTINE invoke_0_testkern_eval_type\n"
     )
@@ -286,7 +286,7 @@ def test_single_kern_eval_op(tmpdir, f90, f90flags):
         "diff_basis_w3_on_w0)\n"
         "      END DO \n")
     assert kern_call in gen_code
-    dealloc = ("      DEALLOCATE (diff_basis_w3_on_w0, basis_w2_on_w0)\n")
+    dealloc = ("      DEALLOCATE (basis_w2_on_w0, diff_basis_w3_on_w0)\n")
     assert dealloc in gen_code
 
 
@@ -423,9 +423,9 @@ def test_two_qr(tmpdir, f90, f90flags):
         "      !\n"
         "      ! Deallocate basis arrays\n"
         "      !\n"
-        "      DEALLOCATE (basis_w3_qr2, diff_basis_w2_qr, diff_basis_w2_qr2, "
-        "basis_w1_qr2, basis_w3_qr, diff_basis_w3_qr2, diff_basis_w3_qr, "
-        "basis_w1_qr)\n"
+        "      DEALLOCATE (basis_w1_qr, basis_w1_qr2, basis_w3_qr, "
+        "basis_w3_qr2, diff_basis_w2_qr, diff_basis_w2_qr2, diff_basis_w3_qr, "
+        "diff_basis_w3_qr2)\n"
     )
     if expected_kern_call not in gen_code:
         utils.print_diffs(expected_kern_call, gen_code)
@@ -508,7 +508,7 @@ def test_two_identical_qr(tmpdir, f90, f90flags):
         "      END DO \n")
     assert expected_kern_call in gen_code
     expected_dealloc = (
-        "DEALLOCATE (diff_basis_w2_qr, basis_w1_qr, basis_w3_qr, "
+        "DEALLOCATE (basis_w1_qr, basis_w3_qr, diff_basis_w2_qr, "
         "diff_basis_w3_qr)")
     assert expected_dealloc in gen_code
 
@@ -697,8 +697,8 @@ def test_qr_plus_eval(tmpdir, f90, f90flags):
         "      END DO \n")
     assert output_kern_call in gen_code
     output_dealloc = (
-        "      DEALLOCATE (diff_basis_w2_qr, basis_w0_on_w0, basis_w3_qr, "
-        "diff_basis_w3_qr, diff_basis_w1_on_w0, basis_w1_qr)\n")
+        "      DEALLOCATE (basis_w0_on_w0, basis_w1_qr, basis_w3_qr, "
+        "diff_basis_w1_on_w0, diff_basis_w2_qr, diff_basis_w3_qr)\n")
     assert output_dealloc in gen_code
 
 
@@ -1133,8 +1133,8 @@ def test_eval_diff_nodal_space(tmpdir, f90, f90flags):
         "      ! Deallocate basis arrays\n"
         "      !\n"
         "      DEALLOCATE ("
-        "diff_basis_w2_on_w3, diff_basis_w2_on_w0, diff_basis_w3_on_w3, "
-        "diff_basis_w3_on_w0, basis_w2_on_w3, basis_w2_on_w0)\n"
+        "basis_w2_on_w0, basis_w2_on_w3, diff_basis_w2_on_w0, "
+        "diff_basis_w2_on_w3, diff_basis_w3_on_w0, diff_basis_w3_on_w3)\n"
     )
     assert expected_dealloc in gen_code
 
