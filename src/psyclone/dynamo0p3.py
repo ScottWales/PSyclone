@@ -51,6 +51,7 @@ from psyclone import psyGen, config
 from psyclone.psyGen import PSy, Invokes, Invoke, Schedule, Loop, Kern, \
     Arguments, KernelArgument, NameSpaceFactory, GenerationError, \
     FieldNotFoundError, HaloExchange, GlobalSum, FORTRAN_INTENT_NAMES
+from collections import OrderedDict
 
 # first section : Parser specialisations and classes
 
@@ -1473,7 +1474,7 @@ class DynInvokeDofmaps(object):
         # of the unique function spaces involved.
         # We create a dictionary whose keys are the map names and entries
         # are the corresponding field objects.
-        self._unique_fs_maps = {}
+        self._unique_fs_maps = OrderedDict()
         # We also create a dictionary of column-banded dofmaps. Entries
         # in this one are themselves dictionaries containing two entries:
         # "argument" - the object holding information on the CMA kernel
