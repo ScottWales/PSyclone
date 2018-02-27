@@ -1604,7 +1604,7 @@ class DynInvokeDofmaps(object):
 
         # Function space dofmaps
         decl_map_names = \
-            [dmap+"(:,:) => null()" for dmap in self._unique_fs_maps]
+            [dmap+"(:,:) => null()" for dmap in sorted(self._unique_fs_maps)]
 
         if decl_map_names:
             parent.add(DeclGen(parent, datatype="integer", pointer=True,
@@ -2243,7 +2243,7 @@ class DynInvokeBasisFns(object):
         if loop_var_list:
             # Declare any loop variables
             parent.add(DeclGen(parent, datatype="integer",
-                               entity_decls=list(loop_var_list)))
+                               entity_decls=loop_var_list))
 
     def deallocate(self, parent):
         '''

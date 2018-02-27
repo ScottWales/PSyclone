@@ -2502,9 +2502,9 @@ def test_multikern_invoke_any_space(tmpdir, f90, f90flags):
         # If compilation testing has been enabled (--compile flag to py.test)
         assert utils.code_compiles("dynamo0.3", psy, tmpdir, f90, f90flags)
     assert ("INTEGER, pointer :: map_any_space_1_f1(:,:) => null(), "
+            "map_any_space_1_f2(:,:) => null(), "
             "map_any_space_2_f1(:,:) => null(), "
-            "map_any_space_2_f2(:,:) => null(), "
-            "map_any_space_1_f2(:,:) => null(), map_w0(:,:) => null()" in gen)
+            "map_any_space_2_f2(:,:) => null(), map_w0(:,:) => null()" in gen)
     assert (
         "REAL(KIND=r_def), allocatable :: basis_any_space_1_f1_qr(:,:,:,:), "
         "basis_any_space_2_f2_qr(:,:,:,:), basis_any_space_1_f2_qr(:,:,:,:), "
@@ -3327,7 +3327,7 @@ def test_kernel_stub_usage():
     out = Popen(['genkernelstub'],
                 stdout=PIPE,
                 stderr=STDOUT).communicate()[0]
-    assert usage_msg in out
+    assert usage_msg in out.decode('utf-8')
 
 
 def test_kernel_stub_gen_cmd_line():
@@ -3341,7 +3341,7 @@ def test_kernel_stub_gen_cmd_line():
                 stdout=PIPE).communicate()[0]
 
     print("Output was: ", out)
-    assert ORIENTATION_OUTPUT in out
+    assert ORIENTATION_OUTPUT in out.decode('utf-8')
 
 
 def test_stub_stencil_extent():
@@ -5910,7 +5910,7 @@ def test_dynkernargs_unexpect_stencil_extent():
         os.path.join(BASE_PATH, "19.1_single_stencil.f90"),
         api="dynamo0.3")
     # find the parsed code's call class
-    call = invoke_info.calls.values()[0].kcalls[0]
+    call = list(invoke_info.calls.values())[0].kcalls[0]
     # add an extent to the stencil metadata
     kernel_metadata = call.ktype
     kernel_metadata._arg_descriptors[1].stencil['extent'] = 2
@@ -6275,7 +6275,7 @@ def test_kernel_args_has_op():
         os.path.join(BASE_PATH, "19.1_single_stencil.f90"),
         api="dynamo0.3")
     # find the parsed code's call class
-    call = invoke_info.calls.values()[0].kcalls[0]
+    call = list(invoke_info.calls.values())[0].kcalls[0]
     from psyclone.dynamo0p3 import DynKernelArguments
     dka = DynKernelArguments(call, None)
     with pytest.raises(GenerationError) as excinfo:
@@ -6743,7 +6743,7 @@ def test_halo_ex_back_dep_no_call(monkeypatch):
     # not matter in practice as we are just trying to get PSyclone to
     # raise the appropriate exception.
     assert ("Generation Error: In HaloInfo class, field 'f2' should be from a "
-            "call but found <type 'function'>") in str(excinfo.value)
+            "call but found %s"%type(lambda: halo_exchange)) in str(excinfo.value)
 
 
 def test_HaloReadAccess_input_field():
@@ -6755,7 +6755,7 @@ def test_HaloReadAccess_input_field():
     assert (
         "Generation Error: HaloInfo class expects an argument of type "
         "DynArgument, or equivalent, on initialisation, but found, "
-        "'<type 'NoneType'>'" in str(excinfo.value))
+        "'%s'"%type(None) in str(excinfo.value))
 
 
 def test_HaloReadAccess_field_in_call():
