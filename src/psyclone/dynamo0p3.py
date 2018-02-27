@@ -2244,7 +2244,7 @@ class DynInvokeBasisFns(object):
         if loop_var_list:
             # Declare any loop variables
             parent.add(DeclGen(parent, datatype="integer",
-                               entity_decls=loop_var_list))
+                               entity_decls=list(loop_var_list)))
 
     def deallocate(self, parent):
         '''

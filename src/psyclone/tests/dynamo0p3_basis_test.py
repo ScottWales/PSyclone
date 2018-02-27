@@ -333,8 +333,8 @@ def test_two_qr(tmpdir, f90, f90flags):
         "      TYPE(field_proxy_type) f1_proxy, f2_proxy, m1_proxy, "
         "m2_proxy, g1_proxy, g2_proxy, n1_proxy, n2_proxy\n"
         "      TYPE(quadrature_xyoz_proxy_type) qr_proxy, qr2_proxy\n"
-        "      INTEGER, pointer :: map_w2(:,:) => null(), "
-        "map_w3(:,:) => null(), map_w1(:,:) => null()\n"
+        "      INTEGER, pointer :: map_w1(:,:) => null(), "
+        "map_w2(:,:) => null(), map_w3(:,:) => null()\n"
     )
     assert expected_declns in gen_code
     expected_code = (
@@ -611,8 +611,8 @@ def test_qr_plus_eval(tmpdir, f90, f90flags):
         "      TYPE(field_proxy_type) f0_proxy, f1_proxy, f2_proxy, "
         "m1_proxy, m2_proxy\n"
         "      TYPE(quadrature_xyoz_proxy_type) qr_proxy\n"
-        "      INTEGER, pointer :: map_w2(:,:) => null(), "
-        "map_w3(:,:) => null(), map_w0(:,:) => null(), map_w1(:,:) => "
+        "      INTEGER, pointer :: map_w0(:,:) => null(), "
+        "map_w1(:,:) => null(), map_w2(:,:) => null(), map_w3(:,:) => "
         "null()\n")
     assert output_decls in gen_code
     output_setup = (

@@ -2433,9 +2433,10 @@ def test_builtin_set_plus_normal():
             "      !\n"
             "      ! Look-up dofmaps for each function space\n"
             "      !\n"
+            "      map_w1 => f1_proxy%vspace%get_whole_dofmap()\n"
             "      map_w2 => f2_proxy%vspace%get_whole_dofmap()\n"
             "      map_w3 => m2_proxy%vspace%get_whole_dofmap()\n"
-            "      map_w1 => f1_proxy%vspace%get_whole_dofmap()\n")
+            )
         assert dofmap_output in code
 
         if not distmem:
