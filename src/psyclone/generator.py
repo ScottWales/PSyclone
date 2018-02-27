@@ -235,7 +235,7 @@ def main(args):
         my_file.write(alg_str)
         my_file.close()
     else:
-        print("Transformed algorithm code:\n", alg_str)
+        print("Transformed algorithm code:\n%s"%alg_str)
 
     if not psy_str:
         # empty file so do not output anything

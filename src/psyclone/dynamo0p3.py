@@ -2281,7 +2281,7 @@ class DynInvokeBasisFns(object):
         if func_space_var_names:
             # add the required deallocate call, sorting the variables so that
             # output is repeatable
-            parent.add(DeallocateGen(parent, sorted(list(func_space_var_names))))
+            parent.add(DeallocateGen(parent, sorted(func_space_var_names)))
 
 
 class DynInvoke(Invoke):
