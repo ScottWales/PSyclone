@@ -38,6 +38,7 @@
 ''' Module implementing classes populated by parsing either kernel
     meta-data or invoke()'s in the Algorithm layer '''
 
+from __future__ import absolute_import
 import os
 from pyparsing import ParseException
 import fparser

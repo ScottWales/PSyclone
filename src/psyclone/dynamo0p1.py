@@ -10,6 +10,7 @@
     required base classes (PSy, Invokes, Invoke, Schedule, Loop, Kern,
     Arguments and Argument). '''
 
+from __future__ import absolute_import
 from psyclone.psyGen import PSy, Invokes, Invoke, Schedule, Loop, Kern, Arguments, \
                    Argument, GenerationError
 

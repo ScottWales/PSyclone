@@ -22,11 +22,11 @@ import argparse
 import sys
 import os
 import traceback
-from .parse import parse, ParseError
-from .psyGen import PSyFactory, GenerationError
-from .algGen import NoInvokesError
-from .config import SUPPORTEDAPIS, DEFAULTAPI, DISTRIBUTED_MEMORY
-from .line_length import FortLineLength
+from psyclone.parse import parse, ParseError
+from psyclone.psyGen import PSyFactory, GenerationError
+from psyclone.algGen import NoInvokesError
+from psyclone.config import SUPPORTEDAPIS, DEFAULTAPI, DISTRIBUTED_MEMORY
+from psyclone.line_length import FortLineLength
 
 
 def generate(filename, api="", kernel_path="", script_name=None,

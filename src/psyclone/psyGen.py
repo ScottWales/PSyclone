@@ -1244,7 +1244,7 @@ class Schedule(Node):
 
     def view(self, indent=0):
         '''
-        print(a text representation of this node to stdout and then)
+        Print a text representation of this node to stdout and then
         call the view() method of any children.
 
         :param indent: Depth of indent for output text
@@ -1282,7 +1282,7 @@ class Directive(Node):
 
     def view(self, indent=0):
         '''
-        print(a text representation of this node to stdout and then)
+        Print a text representation of this node to stdout and then
         call the view() method of any children.
 
         :param indent: Depth of indent for output text
@@ -1318,7 +1318,7 @@ class OMPDirective(Directive):
 
     def view(self, indent=0):
         '''
-        print(a text representation of this node to stdout and then)
+        Print a text representation of this node to stdout and then
         call the view() method of any children.
 
         :param indent: Depth of indent for output text
@@ -1351,7 +1351,7 @@ class OMPParallelDirective(OMPDirective):
 
     def view(self, indent=0):
         '''
-        print(a text representation of this node to stdout and then)
+        Print a text representation of this node to stdout and then
         call the view() method of any children.
 
         :param indent: Depth of indent for output text

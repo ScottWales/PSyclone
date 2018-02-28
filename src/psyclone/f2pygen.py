@@ -10,7 +10,7 @@
     provide routines which can be used to generate fortran code. This library
     includes pytest tests. '''
 
-from __future__ import print_function
+from __future__ import absolute_import, print_function
 from fparser.statements import Comment
 from fparser.readfortran import FortranStringReader
 from fparser.block_statements import SelectCase, SelectType
