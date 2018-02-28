@@ -53,13 +53,20 @@ from psyclone.dynamo0p3 import DynKernMetadata, DynKern, DynLoop, \
 from psyclone.transformations import LoopFuseTrans
 from psyclone.gen_kernel_stub import generate
 import fparser
-from fparser import api as fpapi
 import utils
 
 # constants
 BASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                          "test_files", "dynamo0p3")
 
+# Workaround to call fparser without using its cache
+class fpapi():
+    @staticmethod
+    def parse(*args, **kwargs):
+        import fparser.api
+        from fparser.parsefortran import FortranParser
+        FortranParser.cache = {}
+        return fparser.api.parse(*args, **kwargs)
 
 def test_get_op_wrong_name():
     ''' Tests that the get_operator_name() utility raises an error

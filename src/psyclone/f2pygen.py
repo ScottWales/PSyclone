@@ -437,6 +437,7 @@ class ModuleGen(ProgUnitGen):
     ''' create a fortran module '''
     def __init__(self, name="", contains=True, implicitnone=True):
         from fparser import api
+        from fparser.parsefortran import FortranParser
 
         code = '''\
 module vanilla
@@ -448,7 +449,12 @@ contains
         code += '''\
 end module vanilla
 '''
+        # Disable fparser cache, as we will modify the resulting tree
+        tmp = FortranParser.cache
+        FortranParser.cache = {}
         tree = api.parse(code, ignore_comments=False)
+        FortranParser.cache = tmp
+
         module = tree.content[0]
         module.name = name
         endmod = module.content[len(module.content)-1]
