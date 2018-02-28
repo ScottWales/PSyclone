@@ -40,7 +40,7 @@ quadrature in the LFRic API '''
 from __future__ import absolute_import, print_function
 import os
 import pytest
-from fparser import api as fpapi
+from fparser_nocache import api as fpapi
 from psyclone.parse import parse
 from psyclone.psyGen import PSyFactory, GenerationError
 from psyclone.dynamo0p3 import DynKernMetadata, DynKern

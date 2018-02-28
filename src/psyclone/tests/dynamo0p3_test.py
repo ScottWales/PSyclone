@@ -45,6 +45,7 @@ from __future__ import absolute_import, print_function
 import os
 import pytest
 import sys
+from fparser_nocache import api as fpapi
 from psyclone.parse import parse, ParseError
 from psyclone.psyGen import PSyFactory, GenerationError
 from psyclone.dynamo0p3 import DynKernMetadata, DynKern, DynLoop, \
@@ -59,14 +60,6 @@ import utils
 BASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                          "test_files", "dynamo0p3")
 
-# Workaround to call fparser without using its cache
-class fpapi():
-    @staticmethod
-    def parse(*args, **kwargs):
-        import fparser.api
-        from fparser.parsefortran import FortranParser
-        FortranParser.cache = {}
-        return fparser.api.parse(*args, **kwargs)
 
 def test_get_op_wrong_name():
     ''' Tests that the get_operator_name() utility raises an error

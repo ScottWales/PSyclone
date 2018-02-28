@@ -40,7 +40,7 @@ from __future__ import absolute_import, print_function
 import os
 import pytest
 import fparser
-from fparser import api as fpapi
+from fparser_nocache import api as fpapi
 from psyclone.parse import parse, ParseError
 from psyclone.psyGen import PSyFactory, GenerationError
 from psyclone.dynamo0p3 import DynKernMetadata, DynKern

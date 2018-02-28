@@ -49,7 +49,7 @@ from __future__ import absolute_import, print_function
 import os
 import re
 import pytest
-from fparser import api as fpapi
+from fparser_nocache import api as fpapi
 from psyclone.psyGen import TransInfo, Transformation, PSyFactory, NameSpace, \
     NameSpaceFactory, OMPParallelDoDirective, PSy, \
     OMPParallelDirective, OMPDoDirective, OMPDirective, Directive
