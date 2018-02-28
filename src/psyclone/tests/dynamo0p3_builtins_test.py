@@ -249,8 +249,8 @@ def test_builtin_args_not_same_space():
         _ = PSyFactory("dynamo0.3",
                        distributed_memory=False).create(invoke_info)
     assert ("All field arguments to a built-in in the Dynamo 0.3 API "
-            "must be on the same space. However, found spaces ['any_space_2', "
-            "'any_space_1'] for arguments to " + test_builtin_name.lower() in
+            "must be on the same space. However, found spaces ['any_space_1', "
+            "'any_space_2'] for arguments to " + test_builtin_name.lower() in
             str(excinfo))
 
 

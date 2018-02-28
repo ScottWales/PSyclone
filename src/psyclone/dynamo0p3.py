@@ -961,7 +961,7 @@ class DynKernMetadata(KernelType):
                 "Inter-grid kernels in the Dynamo 0.3 API must have at least "
                 "one field argument on each of the mesh types ({0}). However, "
                 "kernel {1} has arguments only on {2}".format(
-                    VALID_MESH_TYPES, self.name, mesh_list))
+                    VALID_MESH_TYPES, self.name, list(mesh_list)))
         # Inter-grid kernels must only have field arguments
         if non_field_arg_types:
             raise ParseError(
@@ -991,7 +991,7 @@ class DynKernMetadata(KernelType):
                 "kernels must be on different function spaces if they are "
                 "on different meshes. However kernel {0} has a field on "
                 "function space(s) {1} on each of the mesh types {2}.".
-                format(self.name, list(fs_common), mesh_list))
+                format(self.name, list(fs_common), list(mesh_list)))
 
     def _identify_cma_op(self, cwise_ops):
         '''Identify and return the type of CMA-operator-related operation
@@ -2244,7 +2244,7 @@ class DynInvokeBasisFns(object):
         if loop_var_list:
             # Declare any loop variables
             parent.add(DeclGen(parent, datatype="integer",
-                               entity_decls=list(loop_var_list)))
+                               entity_decls=sorted(loop_var_list)))
 
     def deallocate(self, parent):
         '''

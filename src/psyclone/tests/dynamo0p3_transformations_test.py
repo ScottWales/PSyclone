@@ -4794,7 +4794,7 @@ def test_rc_invalid_depth_type():
     with pytest.raises(TransformationError) as excinfo:
         rc_trans.apply(loop, depth="2")
     assert ("the supplied depth should be an integer but found "
-            "type '<type 'str'>'" in str(excinfo.value))
+            "type '%s'"%(type("2")) in str(excinfo.value))
 
 
 def test_loop_fusion_different_loop_depth():
