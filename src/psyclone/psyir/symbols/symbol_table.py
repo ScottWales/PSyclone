@@ -51,7 +51,7 @@ from psyclone.configuration import Config
 from psyclone.errors import InternalError
 from psyclone.psyir.symbols import (
     DataSymbol, ContainerSymbol, DataTypeSymbol, GenericInterfaceSymbol,
-    ImportInterface, RoutineSymbol, Symbol, SymbolError, UnresolvedInterface)
+    ImportInterface, RoutineSymbol, Symbol, SymbolError, UnresolvedInterface, AutomaticInterface)
 from psyclone.psyir.symbols.intrinsic_symbol import IntrinsicSymbol
 from psyclone.psyir.symbols.typed_symbol import TypedSymbol
 
@@ -1309,6 +1309,24 @@ class SymbolTable():
             # If the SymbolTable is inconsistent at this point then
             # we have an InternalError.
             raise InternalError(str(err.args)) from err
+
+    def pop_argument(self, i: int) -> Symbol:
+        '''
+        Remove the argument at the given position in the list and return it
+        '''
+
+        arg = self._argument_list.pop(i)
+        arg.interface = AutomaticInterface()
+
+        try:
+            self._validate_arg_list(self._argument_list)
+            self._validate_non_args()
+        except ValueError as err:
+            # If the SymbolTable is inconsistent at this point then
+            # we have an InternalError.
+            raise InternalError(str(err.args)) from err
+
+        return arg
 
     @staticmethod
     def _validate_arg_list(arg_list):

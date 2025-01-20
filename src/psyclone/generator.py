@@ -377,6 +377,15 @@ def generate(filename, api="", kernel_paths=None, script_name=None,
                     symbol = symbol_table.lookup(builtins_module_name)
                     symbol_table.remove(symbol)
 
+
+        if script_name is not None:
+            # Call the optimisation script for psycall optimisations
+            recipe, _, _ = load_script(script_name, "trans_psycall",
+                                       is_optional=True)
+            if recipe:
+                recipe(psyir)
+
+
         # Create Fortran from Algorithm PSyIR
         writer = FortranWriter()
         alg_gen = writer(psyir)
