@@ -40,6 +40,10 @@ from __future__ import print_function, absolute_import
 
 
 from psyclone.errors import InternalError
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from psyclone.psyir.nodes import Node
 
 
 class ComponentIndices():
@@ -70,6 +74,7 @@ class ComponentIndices():
 
     '''
     def __init__(self, indices=None):
+        self._component_indices: list[list["Node"]]
         if indices is None or indices == []:
             self._component_indices = [[]]
         elif isinstance(indices, list):

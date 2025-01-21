@@ -39,9 +39,13 @@
 functions.'''
 
 from enum import Enum
-from sympy import (Complexes, ConditionSet, core, EmptySet, expand, FiniteSet,
-                   ImageSet, simplify, solvers, Union)
+from sympy import (Complexes, ConditionSet, EmptySet, expand, FiniteSet,
+                   ImageSet, simplify, solvers, Union, core)
+from sympy.core.numbers import Zero, Integer
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from psyclone.psyir.nodes import Node
 
 class SymbolicMaths:
     '''A wrapper around the symbolic maths package 'sympy'. It
@@ -121,8 +125,8 @@ class SymbolicMaths:
         # For ranges all values (start, stop, step) must be equal, meaning
         # each index of the difference must evaluate to 0:
         if isinstance(diff, list):
-            return all(isinstance(i, core.numbers.Zero) for i in diff)
-        return isinstance(diff, core.numbers.Zero)
+            return all(isinstance(i, Zero) for i in diff)
+        return isinstance(diff, Zero)
 
     # -------------------------------------------------------------------------
     @staticmethod
@@ -156,14 +160,14 @@ class SymbolicMaths:
             result = [result]
 
         # If the result(s) are all 0, the expressions are always the same:
-        if all(isinstance(i, core.numbers.Zero) for i in result):
+        if all(isinstance(i, Zero) for i in result):
             return False
 
         # Handle the common case of a single integer expressions. In this
         # case we know because of the previous test that the result is not
         # 0, so if the result is an integer (i.e. not symbolic), we know that
         # that the expressions are never equal:
-        if len(result) == 1 and isinstance(result[0], core.numbers.Integer):
+        if len(result) == 1 and isinstance(result[0], Integer):
             return True
 
         # TODO #2168: We can likely produce more precise results if we
@@ -182,8 +186,8 @@ class SymbolicMaths:
 
     # -------------------------------------------------------------------------
     @staticmethod
-    def _subtract(exp1, exp2, identical_variables=None,
-                  all_variables_positive=None):
+    def _subtract(exp1: "Node", exp2: "Node", identical_variables=None,
+                  all_variables_positive=False):
         '''Subtracts two PSyIR expressions and returns the simplified result
         of this operation. An expression might result in multiple SymPy
         expressions - for example, a `Range` node becomes a 3-tuple (start,
@@ -237,7 +241,7 @@ class SymbolicMaths:
         return simplify(sympy_expressions[0] - sympy_expressions[1])
 
     @staticmethod
-    def greater_than(exp1, exp2, all_variables_positive=None):
+    def greater_than(exp1, exp2, all_variables_positive:bool=False):
         '''
         Determines whether exp1 is, or might be, numerically greater than exp2.
 
@@ -256,7 +260,7 @@ class SymbolicMaths:
         diff_val = SymbolicMaths._subtract(
             exp1, exp2,
             all_variables_positive=all_variables_positive)
-        if isinstance(diff_val, core.numbers.Integer):
+        if isinstance(diff_val, Integer):
             if diff_val.is_zero or diff_val.is_negative:
                 return SymbolicMaths.Fuzzy.FALSE
             return SymbolicMaths.Fuzzy.TRUE
@@ -349,7 +353,7 @@ class SymbolicMaths:
 
     # -------------------------------------------------------------------------
     @staticmethod
-    def expand(expr):
+    def expand(expr: "Node"):
         '''Expand a PSyIR expression. This is done by converting the PSyIR
         expression to a sympy expression, applying the expansion
         operation and then converting the resultant output back into

@@ -42,13 +42,15 @@ import keyword
 
 import sympy
 from sympy.parsing.sympy_parser import parse_expr
+import sympy.core
 
 from psyclone.psyir.backend.fortran import FortranWriter
 from psyclone.psyir.backend.visitor import VisitorError
 from psyclone.psyir.frontend.sympy_reader import SymPyReader
 from psyclone.psyir.nodes import (
-    DataNode, Range, Reference, IntrinsicCall, Call)
+    DataNode, Range, Reference, IntrinsicCall, Call, Node)
 from psyclone.psyir.symbols import (ArrayType, ScalarType, SymbolTable)
+from typing import overload, Any
 
 
 class SymPyWriter(FortranWriter):
@@ -438,8 +440,15 @@ class SymPyWriter(FortranWriter):
         return expression_str_list
 
     # -------------------------------------------------------------------------
-    def __call__(self, list_of_expressions, identical_variables=None,
-                 all_variables_positive=False):
+    @overload
+    def __call__(self, list_of_expressions: Node, identical_variables: dict[str,str]|None=None, all_variables_positive: bool=False) -> Any:
+        ...
+    @overload
+    def __call__(self, list_of_expressions: list[Node], identical_variables: dict[str,str]|None=None, all_variables_positive: bool=False) -> list[Any]:
+        ...
+
+    def __call__(self, list_of_expressions: Node|list[Node], identical_variables:dict[str,str]|None=None,
+                 all_variables_positive:bool=False) -> Any | list[Any]:
         '''
         This function takes a list of PSyIR expressions, and converts
         them all into Sympy expressions using the SymPy parser.

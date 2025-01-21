@@ -49,6 +49,10 @@ import graphviz
 from psyclone.errors import GenerationError, InternalError
 from psyclone.psyir.symbols import SymbolError
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from psyclone.psyir.nodes.scoping_node import ScopingNode
+
 # We use the termcolor module (if available) to enable us to produce
 # coloured, textual representations of Invoke schedules. If it's not
 # available then we don't use colour.
@@ -1493,7 +1497,7 @@ class Node():
             child.reference_accesses(var_accesses)
 
     @property
-    def scope(self):
+    def scope(self) -> "ScopingNode":
         ''' Some nodes (e.g. Schedule and Container) allow symbols to be
         scoped via an attached symbol table. This property returns the closest
         ScopingNode node including self.
