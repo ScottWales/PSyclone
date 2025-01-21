@@ -67,13 +67,13 @@ class _CacheFileInfo:
     """
     def __init__(self):
         # Hash sum
-        self._source_code_hash_sum: hashlib._Hash = None
+        self._source_code_hash_sum: str | None = None
 
         # Fparser tree
-        self._fparser_tree: Fortran2003.Program = None
+        self._fparser_tree: Fortran2003.Program | None = None
 
         # Psyir node
-        self._psyir_node: FileContainer = None
+        self._psyir_node: FileContainer | None = None
 
 
 class FileInfo:
@@ -98,20 +98,20 @@ class FileInfo:
         self._use_caching: bool = use_caching
 
         # Source code:
-        self._source_code: str = None
+        self._source_code: str|None = None
 
         # Source code hash sum:
-        self._source_code_hash_sum: hashlib._Hash = None
+        self._source_code_hash_sum: str|None = None
 
         # Fparser node
-        self._fparser_tree: Fortran2003.Program = None
+        self._fparser_tree: Fortran2003.Program|None = None
 
         # Flag indicating that, based on a previous attempt,
         # the fparser tree can't be generated due to an error
         self._fparser_tree_triggers_error: bool = False
 
         # Psyir node
-        self._psyir_node: FileContainer = None
+        self._psyir_node: FileContainer|None = None
 
         # Single cache file
         (path, ext) = os.path.splitext(self._filename)
@@ -122,14 +122,14 @@ class FileInfo:
         # In case the checksums mismatch, no object will be referenced.
         # Consequently, this object will always have a checksum matching
         # the one from the source code.
-        self._cache_data_load: _CacheFileInfo = None
+        self._cache_data_load: _CacheFileInfo|None = None
 
         # This reference is used whenever writing cache data to the
         # persistent storage.
         # It will also be partly updated if the `psyir` or
         # `fparser tree` was created in the meantime and a cache update
         # is requested.
-        self._cache_data_save: _CacheFileInfo = None
+        self._cache_data_save: _CacheFileInfo|None = None
 
     @property
     def basename(self):
@@ -203,7 +203,7 @@ class FileInfo:
     def _cache_load(
         self,
         verbose: bool = False,
-    ) -> _CacheFileInfo:
+    ) -> _CacheFileInfo|None:
         """Load fparser parse tree from the cache file if possible.
         This also checks for matching checksums after loading the data
         from the cache.
@@ -214,7 +214,7 @@ class FileInfo:
         """
 
         if not self._use_caching:
-            return
+            return None
 
         # Load the source code in case it's not yet loaded.
         # This also fills in the hash sum
@@ -256,6 +256,7 @@ class FileInfo:
             return None
 
         self._cache_data_load = cache
+        return self._cache_data_load
 
     def _cache_save(
         self,

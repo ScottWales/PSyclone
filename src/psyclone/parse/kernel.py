@@ -255,7 +255,7 @@ class BuiltInKernelTypeFactory(KernelTypeFactory):
 
     '''
     # pylint: disable=arguments-differ
-    def create(self, builtin_names, builtin_defs_file, name=None):
+    def create(self, builtin_names, builtin_defs_file, name=None): # type: ignore
         '''Create API-specific information about the builtin metadata. This
         method finds and parses the metadata then makes use of the
         KernelTypeFactory parent class to return the api-specific

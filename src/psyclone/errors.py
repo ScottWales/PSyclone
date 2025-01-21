@@ -79,7 +79,7 @@ class PSycloneError(Exception):
     '''
     def __init__(self, value):
         Exception.__init__(self, value)
-        self.value = LazyString(lambda: f"PSyclone Error: {value}")
+        self.value: str | LazyString = LazyString(lambda: f"PSyclone Error: {value}")
 
     def __repr__(self):
         return type(self).__name__ + "()"

@@ -102,17 +102,17 @@ class ModuleInfo:
         self._file_info: FileInfo = file_info
 
         # The PSyIR representation
-        self._psyir_container_node: Container = None
+        self._psyir_container_node: Container|None = None
 
         # A cache for the module dependencies: this is just a set
         # of all modules USEd by this module.
         # We use an (ordered) list to preserve the order of the
         # used modules
-        self._used_module_names: List[str] = None
+        self._used_module_names: List[str]|None = None
 
         # This is a dictionary containing the sets of symbols imported from
         # each module, indexed by the module names: dict[str, set[str]].
-        self._map_module_name_to_used_symbols: Dict[str, set[str]] = None
+        self._map_module_name_to_used_symbols: Dict[str, set[str]]|None = None
 
     # ------------------------------------------------------------------------
     @property
@@ -218,7 +218,7 @@ class ModuleInfo:
         '''
         if self._used_module_names is None:
             self._extract_import_information()
-
+        assert self._used_module_names is not None
         return self._used_module_names
 
     # ------------------------------------------------------------------------

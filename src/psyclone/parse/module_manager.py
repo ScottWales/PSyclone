@@ -65,7 +65,7 @@ class ModuleManager:
 
     # ------------------------------------------------------------------------
     @staticmethod
-    def get(use_caching: bool = None):
+    def get(use_caching: bool|None = None):
         '''Static function that if necessary creates and returns the singleton
         ModuleManager instance.
 
@@ -85,7 +85,7 @@ class ModuleManager:
     # ------------------------------------------------------------------------
     def __init__(
                 self,
-                use_caching: bool = None
+                use_caching: bool|None = None
             ):
 
         if ModuleManager._instance is not None:
@@ -95,16 +95,16 @@ class ModuleManager:
         # Disable caching by default
         self._use_caching = use_caching if use_caching is not None else False
 
-        self._modules = {}
-        self._visited_files = {}
+        self._modules: dict[str,ModuleInfo] = {}
+        self._visited_files: dict[str,FileInfo] = {}
 
         # The list of all search paths which have not yet all their files
         # checked. It is stored as an ordered dict to make it easier to avoid
         # duplicating entries.
-        self._remaining_search_paths = OrderedDict()
-        self._original_search_paths = []
+        self._remaining_search_paths: OrderedDict[str,int] = OrderedDict()
+        self._original_search_paths: list[str] = []
 
-        self._ignore_modules = set()
+        self._ignore_modules: set[str] = set()
 
         # Setup the regex used to find Fortran modules. Have to be careful not
         # to match e.g. "module procedure :: some_sub".
@@ -186,8 +186,8 @@ class ModuleManager:
 
         '''
         mod_info = None
+        finfo: FileInfo
         for finfo in file_list:
-            finfo: FileInfo
             # We only proceed to read a file to check for a module if its
             # name is sufficiently similar to that of the module.
             score = SequenceMatcher(None,
@@ -245,7 +245,7 @@ class ModuleManager:
         # First check if we have already seen this module. We only end the
         # search early if the file we've found does not require pre-processing
         # (i.e. has a .f90 suffix).
-        mod_info: ModuleInfo = self._modules.get(mod_lower, None)
+        mod_info: ModuleInfo|None = self._modules.get(mod_lower, None)
         if mod_info and mod_info.filename.endswith(".f90"):
             return mod_info
         old_mod_info = mod_info
@@ -328,7 +328,7 @@ class ModuleManager:
         '''
         # This contains the mapping from each module name to the
         # list of the dependencies and is returned as result:
-        module_dependencies = {}
+        module_dependencies: dict[str,set[str]] = {}
 
         # Work on a copy to avoid modifying the caller's set:
         todo = all_mods.copy()

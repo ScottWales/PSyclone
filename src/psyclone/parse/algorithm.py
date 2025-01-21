@@ -525,6 +525,9 @@ def get_builtin_defs(api):
     # Check that the supplied API is valid
     check_api(api)
 
+    builtins: dict[str,str]
+    fname: str|None
+
     # pylint: disable=import-outside-toplevel
     if api in LFRIC_API_NAMES:
         from psyclone.domain.lfric.lfric_builtins import BUILTIN_MAP \
@@ -896,6 +899,7 @@ class InvokeCall():
 
     def __init__(self, kcalls, name=None, invoke_name="invoke"):
         self._kcalls = kcalls
+        self._name: str|None
         if name:
             # Prefix the name with invoke_name + '_" unless it already
             # starts with that ...
