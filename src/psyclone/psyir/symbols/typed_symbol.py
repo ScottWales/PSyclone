@@ -43,7 +43,9 @@
 import abc
 from psyclone.psyir.symbols.data_type_symbol import DataTypeSymbol
 from psyclone.psyir.symbols.symbol import Symbol
-
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from psyclone.psyir.symbols.datatypes import DataType
 
 class TypedSymbol(Symbol, metaclass=abc.ABCMeta):
     '''
@@ -58,11 +60,11 @@ class TypedSymbol(Symbol, metaclass=abc.ABCMeta):
 
     '''
     def __init__(self, name, datatype, **kwargs):
-        self._datatype = None
+        self._datatype: "DataType"|DataTypeSymbol|None = None
         super(TypedSymbol, self).__init__(name)
         self._process_arguments(datatype=datatype, **kwargs)
 
-    def _process_arguments(self, **kwargs):
+    def _process_arguments(self, **kwargs): # type: ignore
         ''' Process the arguments for the constructor and the specialise
         methods. In this case the datatype argument.
 
@@ -227,11 +229,11 @@ class TypedSymbol(Symbol, metaclass=abc.ABCMeta):
         if self.is_array:
             # pylint: disable=import-outside-toplevel
             from psyclone.psyir.symbols.datatypes import UnsupportedFortranType
-            if isinstance(self.datatype, UnsupportedFortranType):
+            if isinstance(self._datatype, UnsupportedFortranType):
                 # An UnsupportedFortranType that has is_array True must have a
                 # partial_datatype.
                 return self._datatype.partial_datatype.shape
-            return self._datatype.shape
+            return self._datatype.shape # type: ignore # asserted through is_array
         return []
 
     def replace_symbols_using(self, table):
@@ -252,5 +254,5 @@ class TypedSymbol(Symbol, metaclass=abc.ABCMeta):
                 self._datatype = table.lookup(self.datatype.name)
             except KeyError:
                 pass
-        else:
+        elif self._datatype is not None:
             self._datatype.replace_symbols_using(table)

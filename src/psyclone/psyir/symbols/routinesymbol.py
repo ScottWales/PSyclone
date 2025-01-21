@@ -69,7 +69,7 @@ class RoutineSymbol(TypedSymbol):
         self._is_pure = None
         self._process_arguments(**kwargs)
 
-    def _process_arguments(self, **kwargs):
+    def _process_arguments(self, **kwargs): # type: ignore
         ''' Process the arguments for the constructor and the specialise
         methods. In this case it provides a default NoType datatype if
         none is found or provided. It also handles the 'is_pure' and

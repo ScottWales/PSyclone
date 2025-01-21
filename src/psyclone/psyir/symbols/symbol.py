@@ -109,7 +109,7 @@ class Symbol(CommentableMixin):
 
         # The following attributes have a setter method (with error checking)
         self._visibility = None
-        self._interface = None
+        self._interface: SymbolInterface|None = None
 
         self._process_arguments(visibility=visibility, interface=interface)
 

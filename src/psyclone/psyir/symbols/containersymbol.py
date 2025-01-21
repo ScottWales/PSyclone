@@ -66,9 +66,11 @@ class ContainerSymbol(Symbol):
         self._has_wildcard_import = False
         self._is_intrinsic = False
 
+        self._interface: ContainerSymbolInterface
+
         self._process_arguments(**kwargs)
 
-    def _process_arguments(self, **kwargs):
+    def _process_arguments(self, **kwargs): # type: ignore
         ''' Process the arguments for the constructor and the specialise
         methods. In this case the wildcard_import and a change in default
         value for the interface.

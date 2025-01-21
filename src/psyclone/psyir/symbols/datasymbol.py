@@ -76,7 +76,7 @@ class DataSymbol(TypedSymbol):
                                 initial_value=initial_value,
                                 **kwargs)
 
-    def _process_arguments(self, **kwargs):
+    def _process_arguments(self, **kwargs): # type: ignore
         ''' Process the arguments for the constructor and the specialise
         methods. In this case the initial_value and is_constant arguments.
 
@@ -246,6 +246,7 @@ class DataSymbol(TypedSymbol):
                 # No need to check that self.datatype has an intrinsic
                 # attribute as we know it is a ScalarType or ArrayType
                 # due to an earlier test.
+                assert isinstance(self.datatype, ScalarType) or isinstance(self.datatype, ArrayType)
                 lookup = ScalarType.TYPE_MAP_TO_PYTHON[self.datatype.intrinsic]
                 if not isinstance(new_value, lookup):
                     raise ValueError(

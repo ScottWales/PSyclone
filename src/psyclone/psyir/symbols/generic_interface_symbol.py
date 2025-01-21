@@ -74,7 +74,7 @@ class GenericInterfaceSymbol(RoutineSymbol):
         self._process_arguments(routines=routines,
                                 **kwargs)
 
-    def _process_arguments(self, **kwargs):
+    def _process_arguments(self, **kwargs): # type: ignore
         ''' Process the arguments for the constructor and the specialise
         methods. In this case the 'routines' argument.
 
